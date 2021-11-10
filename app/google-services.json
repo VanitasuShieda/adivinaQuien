@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "472807643231",
+    "project_id": "adivinaquien-cfe71",
+    "storage_bucket": "adivinaquien-cfe71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472807643231:android:4c8d5b0f8fe0cc3887e3ea",
+        "android_client_info": {
+          "package_name": "com.mika.adivinaquien"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472807643231-2mqqipdsbfe6u3poted720rg75lh7s55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBchwX3296aZEc0Xzi2SSgyS96EOOZJQvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472807643231-2mqqipdsbfe6u3poted720rg75lh7s55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
