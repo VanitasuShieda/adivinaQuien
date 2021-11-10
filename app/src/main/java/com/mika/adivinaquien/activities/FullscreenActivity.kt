@@ -17,11 +17,15 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mika.adivinaquien.databinding.ActivityFullscreenBinding
 import android.app.Dialog
+import android.net.Uri
 import android.view.Window
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.firestore.ktx.firestore
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.databinding.DialogLoginBinding
+import com.mika.adivinaquien.databinding.DialogRegisterBinding
 import com.mika.adivinaquien.models.user
+import java.util.*
 
 
 /**
@@ -32,8 +36,11 @@ class FullscreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFullscreenBinding
     private lateinit var bindinglogin: DialogLoginBinding
+    private lateinit var bindingregistro: DialogRegisterBinding
     private val auth = Firebase.auth
     private var db = Firebase.firestore
+
+    lateinit var  ImageURI: Uri
 
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
@@ -89,6 +96,7 @@ class FullscreenActivity : AppCompatActivity() {
 
         binding = ActivityFullscreenBinding.inflate(layoutInflater)
         bindinglogin =  DialogLoginBinding.inflate(layoutInflater)
+        bindingregistro =  DialogRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -108,6 +116,7 @@ class FullscreenActivity : AppCompatActivity() {
 
 
         binding.loginactivity.setOnClickListener {
+
             val builddialog =  AlertDialog.Builder(this)
             val viewdialog =  layoutInflater.inflate( R.layout.dialog_login, null)
 
@@ -115,21 +124,47 @@ class FullscreenActivity : AppCompatActivity() {
             val dialog = builddialog.create()
             dialog.show()
 
-            bindinglogin.logincheck.setOnClickListener {
-                if(bindinglogin.emailText.text.toString() != "" && bindinglogin.passwordText.text.toString() != ""){
-                    loginUser(bindinglogin.emailText.text.toString(), bindinglogin.passwordText.text.toString())
+
+            }
+
+
+
+
+        binding.registeractivity.setOnClickListener {
+
+            val buldialreg =  AlertDialog.Builder(this)
+            val viewdialreg =  layoutInflater.inflate( R.layout.dialog_register, null)
+
+            buldialreg.setView(viewdialreg)
+            val dialogreg = buldialreg.create()
+            dialogreg.show()
+
+            bindingregistro.btnselectimg.setOnClickListener {
+                    val intentimg = Intent()
+                intentimg.type = "images/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+
+                startActivity(intentimg)
+
+            }
+
+            bindingregistro.registercheck.setOnClickListener {
+                if(bindingregistro.newemail.text.toString() != ""
+                    && bindingregistro.newpassword.text.toString() != ""
+                    && bindingregistro.newnick.text.toString() != ""
+                    && bindingregistro.newpassword.text != bindingregistro.newpassword2.text ){
+                    createUser()
                 }else{
-                    Toast.makeText(baseContext, "Campos vacios", Toast.LENGTH_LONG).show()
+                    if(bindingregistro.newnick.text.toString() == ""){
+                        Toast.makeText(baseContext, "El Usuario No puede Estar En blanco", Toast.LENGTH_LONG).show()
+                    }else if(bindingregistro.newpassword.text.toString() != bindingregistro.newpassword2.text.toString()){
+                        Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG).show()
+                    }else if(bindingregistro.newemail.text.toString() == ""){
+                        Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 
-
-
-            }
-
-
-        binding.createactivity.setOnClickListener {
-            //createUser()
         }
 
 
@@ -154,23 +189,19 @@ class FullscreenActivity : AppCompatActivity() {
     }
 
     private fun createUser(){
-        val newemail = "12"
-        val password = "12"
-        //val email = binding.emailText.text.toString()
-        //val password = binding.passwordText.text.toString()
-
+        val newemail = bindingregistro.newemail.text.toString()
+        val password = bindingregistro.newpassword.text.toString()
 
         auth.createUserWithEmailAndPassword(newemail, password).addOnCompleteListener { task ->
             if(task.isSuccessful){
-
+                val Uid = UUID.randomUUID().toString()
                 val userinfo = user(
-                    id = "",
-                    nick = "",
-                    email = "",
+                    id = Uid,
+                    nick = bindingregistro.newnick.text.toString(),
+                    email = newemail,
                     wins = 0,
                     loses = 0,
                     multiplayergames = listOf("Sin Partidas","Jugadas"))
-
 
                 db.collection("Users").document(newemail).set(userinfo)
                 checkUser()

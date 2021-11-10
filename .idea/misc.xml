@@ -4,10 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_fullscreen.xml" value="0.25" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/dialog_register.xml" value="0.5" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/fragment_dialoguserslist.xml" value="0.3625" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/fragment_login.xml" value="0.3484375" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/fragment_login2.xml" value="0.24739583333333334" />
-        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/game_menu.xml" value="0.30364583333333334" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/game_menu.xml" value="0.22" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/game_multiplay.xml" value="0.3625" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/game_soloplay.xml" value="0.3625" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/item_msg.xml" value="0.5" />

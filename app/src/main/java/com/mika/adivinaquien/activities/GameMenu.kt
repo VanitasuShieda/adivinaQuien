@@ -2,6 +2,7 @@ package com.mika.adivinaquien.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.mika.adivinaquien.R
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -32,6 +33,11 @@ class GameMenu: AppCompatActivity() {
         }
         binding.btnmultigame.setOnClickListener{
             //inicia actividad multiplayer
+            finish()
+        }
+
+        binding.btnlogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut();
             finish()
         }
 
