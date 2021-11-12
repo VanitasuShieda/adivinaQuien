@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/checkpassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,7 +115,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="48dp"
-        android:text="Registrar Cuenta"
+        android:text="Comprobar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newimage" />
@@ -139,9 +140,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/newimage" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/newimage"
-
+        android:src="@drawable/common_google_signin_btn_icon_dark"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="12dp"

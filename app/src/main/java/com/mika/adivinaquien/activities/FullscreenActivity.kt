@@ -24,6 +24,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.databinding.DialogLoginBinding
 import com.mika.adivinaquien.databinding.DialogRegisterBinding
+import com.mika.adivinaquien.dialogs.dialogLogin
+import com.mika.adivinaquien.dialogs.dialogRegister
 import com.mika.adivinaquien.models.user
 import java.util.*
 
@@ -116,60 +118,46 @@ class FullscreenActivity : AppCompatActivity() {
 
 
         binding.loginactivity.setOnClickListener {
+            val loginDialog = dialogLogin()
+            loginDialog.show(supportFragmentManager, "anadir dialog")
 
-            val builddialog =  AlertDialog.Builder(this)
-            val viewdialog =  layoutInflater.inflate( R.layout.dialog_login, null)
-
-            builddialog.setView(viewdialog)
-            val dialog = builddialog.create()
-            dialog.show()
-
-
-            }
-
-
+        }
 
 
         binding.registeractivity.setOnClickListener {
-
-            val buldialreg =  AlertDialog.Builder(this)
-            val viewdialreg =  layoutInflater.inflate( R.layout.dialog_register, null)
-
-            buldialreg.setView(viewdialreg)
-            val dialogreg = buldialreg.create()
-            dialogreg.show()
-
-            bindingregistro.btnselectimg.setOnClickListener {
-                    val intentimg = Intent()
-                intentimg.type = "images/*"
-                intent.action = Intent.ACTION_GET_CONTENT
-
-                startActivity(intentimg)
-
-            }
-
-            bindingregistro.registercheck.setOnClickListener {
-                if(bindingregistro.newemail.text.toString() != ""
-                    && bindingregistro.newpassword.text.toString() != ""
-                    && bindingregistro.newnick.text.toString() != ""
-                    && bindingregistro.newpassword.text != bindingregistro.newpassword2.text ){
-                    createUser()
-                }else{
-                    if(bindingregistro.newnick.text.toString() == ""){
-                        Toast.makeText(baseContext, "El Usuario No puede Estar En blanco", Toast.LENGTH_LONG).show()
-                    }else if(bindingregistro.newpassword.text.toString() != bindingregistro.newpassword2.text.toString()){
-                        Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG).show()
-                    }else if(bindingregistro.newemail.text.toString() == ""){
-                        Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
+            val registerDialog = dialogRegister()
+            registerDialog.show(supportFragmentManager, "anadir dialog")
         }
 
 
         checkUser()
     }//end onCreate
+
+    override fun applyLogin(email: String, pass: String) {
+        loginUser(email,pass)
+        val currentUser = auth.currentUser
+
+        if(currentUser != null){
+            Toast.makeText(baseContext, "Inicio Exitoso", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun applyReg(nick: String, email: String, pass: String, imgFoto: Uri?) {
+        if(bindingregistro.newemail.text.toString() != ""
+            && bindingregistro.newpassword.text.toString() != ""
+            && bindingregistro.newnick.text.toString() != ""
+            && bindingregistro.newpassword.text != bindingregistro.newpassword2.text ){
+            createUser()
+        }else{
+            if(bindingregistro.newnick.text.toString() == ""){
+                Toast.makeText(baseContext, "El Usuario No puede Estar En blanco", Toast.LENGTH_LONG).show()
+            }else if(bindingregistro.newpassword.text.toString() != bindingregistro.newpassword2.text.toString()){
+                Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG).show()
+            }else if(bindingregistro.newemail.text.toString() == ""){
+                Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     private fun checkUser(){
         val currentUser = auth.currentUser
@@ -227,8 +215,6 @@ class FullscreenActivity : AppCompatActivity() {
 
         }
     }
-
-
 
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
