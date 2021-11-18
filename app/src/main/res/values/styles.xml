@@ -8,9 +8,4 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
-]
-        <style name="Theme_Dialog_Translucent" parent="android:Theme.Dialog">
-            <item name="android:windowBackground">@android:color/transparent</item>
-        </style>
-]
 </resources>

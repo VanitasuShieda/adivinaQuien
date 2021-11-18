@@ -5,35 +5,34 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.mika.adivinaquien.R
 
-class dialogLogin : DialogFragment() {
-    private lateinit var listener: dialogLoginListener
-
-    interface dialogLoginListener {
-        fun applyLogin(email: String, pass: String)
+class dialogUserInfo: DialogFragment()  {
+    private lateinit var listener:dialogUserInfoListener
+    interface dialogUserInfoListener {
+        //fun changeUserInf(nick: String, email: String, pass: String, imgFoto: Uri?)
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater
-            val binding = inflater.inflate(R.layout.dialog_login, null)
+            val inflater = requireActivity().layoutInflater;
+            val binding = inflater.inflate(R.layout.dialog_register, null)
 
 
             builder.setView(binding)
-                .setTitle("Inicio de Sesion")
-                .setPositiveButton("Iniciar",
+                .setPositiveButton("Registrar",
                     DialogInterface.OnClickListener { dialog, id ->
-                        val email = binding.findViewById<EditText>(R.id.emailText).text.toString()
-                        val pass = binding.findViewById<EditText>(R.id.passwordText).text.toString()
 
-                        listener.applyLogin(email, pass)
                     })
                 .setNegativeButton("Cancelar",
                     DialogInterface.OnClickListener { dialog, id ->
@@ -55,14 +54,11 @@ class dialogLogin : DialogFragment() {
         super.onAttach(context)
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            listener = context as dialogLoginListener
+            listener = context as dialogUserInfoListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(
-                (context.toString() +
-                        " must implementAnadirDialogListener")
-            )
+            throw ClassCastException((context.toString() +
+                    " must implementAnadirDialogListener"))
         }
     }
-
 }

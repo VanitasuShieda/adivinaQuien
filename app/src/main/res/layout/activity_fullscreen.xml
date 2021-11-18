@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.AdivinaQuien.FullscreenContainer"
-    android:screenOrientation="landscape"
     tools:context=".activities.FullscreenActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loginPanel"
@@ -71,7 +71,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,12 +96,6 @@
                 android:text="@string/dummy_button" />
 
         </LinearLayout>
-
-
     </FrameLayout>
-
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
 
 </FrameLayout>

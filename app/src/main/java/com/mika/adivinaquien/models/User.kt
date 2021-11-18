@@ -1,6 +1,7 @@
 package com.mika.adivinaquien.models
 
-data class user(
+data class User(
+    var online: Boolean ,
     var id: String = "",
     var nick: String = "",
     var email: String = "",

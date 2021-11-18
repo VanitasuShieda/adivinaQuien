@@ -5,10 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/fragment_horizontal_margin"
-    android:paddingTop="@dimen/fragment_vertical_margin"
-    android:paddingRight="@dimen/fragment_horizontal_margin"
-    android:paddingBottom="@dimen/fragment_vertical_margin">
+    android:padding="16dp">
 
     <EditText
         android:id="@+id/emailText"
@@ -39,22 +36,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailText" />
-
-<!--    <Button-->
-<!--        android:id="@+id/logincheck"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="start"-->
-<!--        android:layout_marginStart="48dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout_marginEnd="48dp"-->
-<!--        android:layout_marginBottom="64dp"-->
-<!--        android:text="Login"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/passwordText"-->
-<!--        app:layout_constraintVertical_bias="0.2" />-->
 
     <ProgressBar
         android:id="@+id/loading"

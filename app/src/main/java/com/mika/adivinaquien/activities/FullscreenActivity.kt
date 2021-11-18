@@ -2,8 +2,9 @@ package com.mika.adivinaquien.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
-import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -14,36 +15,35 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.mika.adivinaquien.databinding.ActivityFullscreenBinding
-import android.app.Dialog
-import android.net.Uri
-import android.view.Window
-import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.mika.adivinaquien.BuildConfig
 import com.mika.adivinaquien.R
+import com.mika.adivinaquien.databinding.ActivityFullscreenBinding
 import com.mika.adivinaquien.databinding.DialogLoginBinding
 import com.mika.adivinaquien.databinding.DialogRegisterBinding
 import com.mika.adivinaquien.dialogs.dialogLogin
 import com.mika.adivinaquien.dialogs.dialogRegister
-import com.mika.adivinaquien.models.user
+import com.mika.adivinaquien.models.User
 import java.util.*
-
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class FullscreenActivity : AppCompatActivity() {
+class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterListener,
+    dialogLogin.dialogLoginListener{
 
-    private lateinit var binding: ActivityFullscreenBinding
+    private val pkN = BuildConfig.APPLICATION_ID
+    private var uri = Uri.parse("android.resource://$pkN/${R.drawable.user}")
     private lateinit var bindinglogin: DialogLoginBinding
     private lateinit var bindingregistro: DialogRegisterBinding
     private val auth = Firebase.auth
     private var db = Firebase.firestore
 
-    lateinit var  ImageURI: Uri
 
+    private lateinit var binding: ActivityFullscreenBinding
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler()
@@ -97,8 +97,8 @@ class FullscreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityFullscreenBinding.inflate(layoutInflater)
-        bindinglogin =  DialogLoginBinding.inflate(layoutInflater)
-        bindingregistro =  DialogRegisterBinding.inflate(layoutInflater)
+        bindinglogin = DialogLoginBinding.inflate(layoutInflater)
+        bindingregistro = DialogRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -118,7 +118,7 @@ class FullscreenActivity : AppCompatActivity() {
 
 
         binding.loginactivity.setOnClickListener {
-            val loginDialog = dialogLogin()
+            val loginDialog =     dialogLogin()
             loginDialog.show(supportFragmentManager, "anadir dialog")
 
         }
@@ -131,44 +131,128 @@ class FullscreenActivity : AppCompatActivity() {
 
 
         checkUser()
-    }//end onCreate
+
+    }
 
     override fun applyLogin(email: String, pass: String) {
-        loginUser(email,pass)
+        loginUser(email, pass)
         val currentUser = auth.currentUser
 
-        if(currentUser != null){
+        if (currentUser != null) {
             Toast.makeText(baseContext, "Inicio Exitoso", Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun applyReg(nick: String, email: String, pass: String, imgFoto: Uri?) {
-        if(bindingregistro.newemail.text.toString() != ""
-            && bindingregistro.newpassword.text.toString() != ""
-            && bindingregistro.newnick.text.toString() != ""
-            && bindingregistro.newpassword.text != bindingregistro.newpassword2.text ){
-            createUser()
-        }else{
-            if(bindingregistro.newnick.text.toString() == ""){
-                Toast.makeText(baseContext, "El Usuario No puede Estar En blanco", Toast.LENGTH_LONG).show()
-            }else if(bindingregistro.newpassword.text.toString() != bindingregistro.newpassword2.text.toString()){
-                Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG).show()
-            }else if(bindingregistro.newemail.text.toString() == ""){
-                Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG).show()
+    override fun applyReg(nick: String, email: String, pass: String, pass2: String, imgFoto: Uri?) {
+
+        // necesito checar que pex con la carga de imagen por que no se sube
+
+
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Uploading File. . .")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        if (imgFoto != null) {
+
+            if (email != "" && pass != "" && nick != "" && bindingregistro.newpassword.text != bindingregistro.newpassword2.text) {
+                val Uid = UUID.randomUUID().toString()
+                val userinfo = User(
+                    online = true,
+                    id = Uid,
+                    nick = nick,
+                    email = email,
+                    wins = 0,
+                    loses = 0,
+                    multiplayergames = listOf("Sin Partidas", "Jugadas")
+                )
+
+                db.collection("users").document(email).set(userinfo)
+                // intent.putExtra("ID", Uid)
+                val storageRef = FirebaseStorage.getInstance().getReference("images/$email")
+
+                storageRef.putFile(imgFoto).addOnSuccessListener {
+                    Toast.makeText(this@FullscreenActivity, "Succesfuly upload", Toast.LENGTH_SHORT)
+                        .show()
+                    if (progressDialog.isShowing) progressDialog.dismiss()
+                }.addOnFailureListener {
+                    if (progressDialog.isShowing) progressDialog.dismiss()
+                    Toast.makeText(this@FullscreenActivity, "Failed to Upload", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                createUser(email, pass)
+            } else if (nick == "") {
+                Toast.makeText(
+                    baseContext,
+                    "El Usuario No puede Estar En blanco",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else if (pass != pass2) {
+                Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG)
+                    .show()
+            } else if (email == "") {
+                Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG)
+                    .show()
             }
+        } else {
+
+            if (email != "" && pass != "" && nick != "" && bindingregistro.newpassword.text != bindingregistro.newpassword2.text) {
+                val Uid = UUID.randomUUID().toString()
+                val userinfo = User(
+                    online = true,
+                    id = Uid,
+                    nick = nick,
+                    email = email,
+                    wins = 0,
+                    loses = 0,
+                    multiplayergames = listOf("Sin Partidas", "Jugadas")
+                )
+
+                db.collection("users").document(email).set(userinfo)
+                // intent.putExtra("ID", Uid)
+                val storageRef = FirebaseStorage.getInstance().getReference("images/$email")
+                //imagen predeterminada
+                storageRef.putFile(uri).addOnSuccessListener {
+                    Toast.makeText(
+                        this@FullscreenActivity,
+                        "Succesfuly upload Default",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    if (progressDialog.isShowing) progressDialog.dismiss()
+                }.addOnFailureListener {
+                    if (progressDialog.isShowing) progressDialog.dismiss()
+                    Toast.makeText(
+                        this@FullscreenActivity,
+                        "Failed to Upload Default",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                createUser(email, pass)
+            } else if (nick == "") {
+                Toast.makeText(
+                    baseContext,
+                    "El Usuario No puede Estar En blanco",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else if (pass != pass2) {
+                Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG)
+                    .show()
+            } else if (email == "") {
+                Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG)
+                    .show()
+            }
+
         }
+
+
     }
 
-    private fun checkUser(){
+    private fun checkUser() {
         val currentUser = auth.currentUser
 
-        if(currentUser != null){
-            //manda a llamar al juego
+        if (currentUser != null) {
             val intent = Intent(this, GameMenu::class.java)
-
-            //creamos array
-
-            intent.putExtra("user", currentUser.email)
+            intent.putExtra("User", currentUser.email)
             //se manda
             startActivity(intent)
 
@@ -176,22 +260,10 @@ class FullscreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun createUser(){
-        val newemail = bindingregistro.newemail.text.toString()
-        val password = bindingregistro.newpassword.text.toString()
+    private fun createUser(email: String, pass: String) {
 
-        auth.createUserWithEmailAndPassword(newemail, password).addOnCompleteListener { task ->
-            if(task.isSuccessful){
-                val Uid = UUID.randomUUID().toString()
-                val userinfo = user(
-                    id = Uid,
-                    nick = bindingregistro.newnick.text.toString(),
-                    email = newemail,
-                    wins = 0,
-                    loses = 0,
-                    multiplayergames = listOf("Sin Partidas","Jugadas"))
-
-                db.collection("Users").document(newemail).set(userinfo)
+        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 checkUser()
             } else {
                 task.exception?.let {
@@ -202,10 +274,10 @@ class FullscreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun loginUser(email: String, password: String){
+    private fun loginUser(email: String, password: String) {
 
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if(task.isSuccessful){
+            if (task.isSuccessful) {
                 checkUser()
             } else {
                 task.exception?.let {
