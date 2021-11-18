@@ -167,7 +167,7 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
                     multiplayergames = listOf("Sin Partidas", "Jugadas")
                 )
 
-                db.collection("users").document(email).set(userinfo)
+                db.collection("users").document(email.lowercase()).set(userinfo)
                 // intent.putExtra("ID", Uid)
                 val storageRef = FirebaseStorage.getInstance().getReference("images/$email")
 
@@ -208,7 +208,7 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
                     multiplayergames = listOf("Sin Partidas", "Jugadas")
                 )
 
-                db.collection("users").document(email).set(userinfo)
+                db.collection("users").document(email.lowercase()).set(userinfo)
                 // intent.putExtra("ID", Uid)
                 val storageRef = FirebaseStorage.getInstance().getReference("images/$email")
                 //imagen predeterminada
@@ -253,7 +253,7 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
         if (currentUser != null) {
             val intent = Intent(this, GameMenu::class.java)
             intent.putExtra("User", currentUser.email)
-            //se manda
+
             startActivity(intent)
 
             finish()

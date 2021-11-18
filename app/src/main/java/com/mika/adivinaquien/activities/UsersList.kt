@@ -46,7 +46,6 @@ class UsersList:  AppCompatActivity() {
             .get()
             .addOnSuccessListener { chats ->
                 val listChats = chats.toObjects(Chat::class.java)
-
                 (binding.listGamesRecyclerView.adapter as UsersAdapter).setData(listChats)
             }
 

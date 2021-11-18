@@ -12,12 +12,16 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.mika.adivinaquien.R
+import com.mika.adivinaquien.databinding.DialogInfoBinding
+import com.mika.adivinaquien.models.User
 
-class dialogUserInfo: DialogFragment()  {
+class dialogUserInfo(private val userinf: User?): DialogFragment()  {
     private lateinit var listener:dialogUserInfoListener
+
     interface dialogUserInfoListener {
         //fun changeUserInf(nick: String, email: String, pass: String, imgFoto: Uri?)
     }
@@ -26,17 +30,16 @@ class dialogUserInfo: DialogFragment()  {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
-            val binding = inflater.inflate(R.layout.dialog_register, null)
+            val binding = inflater.inflate(R.layout.dialog_info, null)
+
+            var nick = binding.findViewById<TextView>(R.id.nickinf)
+            nick.text = userinf?.nick
 
 
             builder.setView(binding)
-                .setPositiveButton("Registrar",
+                .setPositiveButton("Ok",
                     DialogInterface.OnClickListener { dialog, id ->
 
-                    })
-                .setNegativeButton("Cancelar",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        getDialog()?.cancel()
                     })
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
@@ -50,15 +53,4 @@ class dialogUserInfo: DialogFragment()  {
         dialog!!.window!!.attributes = params as WindowManager.LayoutParams
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
-            listener = context as dialogUserInfoListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException((context.toString() +
-                    " must implementAnadirDialogListener"))
-        }
-    }
 }
