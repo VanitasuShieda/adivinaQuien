@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.models.Chat
 
-class UsersAdapter(val chatClick: (Chat) -> Unit): RecyclerView.Adapter<UsersAdapter.UsersViewHolder>()  {
+class UsersAdapter(val chatClick: (Chat) -> Unit): RecyclerView.Adapter<UsersAdapter.ChatViewHolder>()  {
 
     var chats: List<Chat> = emptyList()
 
@@ -17,18 +17,25 @@ class UsersAdapter(val chatClick: (Chat) -> Unit): RecyclerView.Adapter<UsersAda
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
-        return UsersViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_users,parent,false            )
-        )
+
+    class ChatViewHolder(item: View): RecyclerView.ViewHolder(item){
+        val chatName = item.findViewById(R.id.chatNameText) as TextView
+        val usersTexe = item.findViewById(R.id.usersTextView) as TextView
+        fun bindChat(chat: Chat){
+            chatName.text=chat.name
+            usersTexe.text=chat.users.toString()
+        }
     }
 
-    override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
+    override fun onCreateViewHolder (parent: ViewGroup, viewType: Int): ChatViewHolder {
+        val item = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_users, parent, false)
+        return ChatViewHolder(item)
+    }
 
-        holder.itemView.findViewById<TextView>(R.id.chatNameText).text = chats[position].name
-        holder.itemView.findViewById<TextView>(R.id.usersTextView).text = chats[position].users.toString()
-
+    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
+        val chat = chats[position]
+        holder.bindChat(chat)
         holder.itemView.setOnClickListener {
             chatClick(chats[position])
         }
@@ -38,5 +45,5 @@ class UsersAdapter(val chatClick: (Chat) -> Unit): RecyclerView.Adapter<UsersAda
         return chats.size
     }
 
-    class UsersViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+
 }

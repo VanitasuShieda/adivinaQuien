@@ -20,6 +20,7 @@ class UsersList:  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.users_list)
+
         binding = UsersListBinding.inflate(layoutInflater)
 
         intent.getStringExtra("user")?.let { user = it }
@@ -30,12 +31,13 @@ class UsersList:  AppCompatActivity() {
     }
 
     private fun initViews(){
-        binding.newGameButton.setOnClickListener { newChat() }
+        binding.newGameButton.setOnClickListener { newGame() }
 
         binding.listGamesRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.listGamesRecyclerView.adapter =
-            UsersAdapter { chat ->
-                chatSelected(chat)
+
+       //creo que el problema es aqui
+        binding.listGamesRecyclerView.adapter = UsersAdapter { chat ->
+                userSelected(chat)
             }
 
         val userRef = db.collection("users").document(user)
@@ -60,14 +62,14 @@ class UsersList:  AppCompatActivity() {
             }
     }
 
-    private fun chatSelected(chat: Chat){
+    private fun userSelected(chat: Chat){
         val intent = Intent(this, GameMultiplayer::class.java)
         intent.putExtra("chatId", chat.id)
         intent.putExtra("User", user)
         startActivity(intent)
     }
 
-    private fun newChat(){
+    private fun newGame(){
         val chatId = UUID.randomUUID().toString()
         val otherUser = binding.newGameText.text.toString()
         val users = listOf(user, otherUser)
