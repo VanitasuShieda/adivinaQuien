@@ -2,25 +2,14 @@ package com.mika.adivinaquien.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.FirebaseFirestoreKtxRegistrar
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.mika.adivinaquien.adapters.UsersAdapter
 import com.mika.adivinaquien.databinding.GameMenuBinding
-import com.mika.adivinaquien.dialogs.dialogLogin
-import com.mika.adivinaquien.dialogs.dialogRegister
 import com.mika.adivinaquien.dialogs.dialogUserInfo
-import com.mika.adivinaquien.models.Chat
+import com.mika.adivinaquien.models.Game
 import com.mika.adivinaquien.models.User
+import java.util.*
 
 class GameMenu: AppCompatActivity() {
 
@@ -35,9 +24,9 @@ class GameMenu: AppCompatActivity() {
             binding = GameMenuBinding.inflate(layoutInflater)
 
 
-
         //recivimos array de intent
         intent.getStringExtra("User")?.let { usermail = it }
+
 
         val refnick = db.collection("users").document(usermail).get()
 
@@ -51,19 +40,7 @@ class GameMenu: AppCompatActivity() {
             println(exeption)
         }
 
-        val userRef = db.collection("users").orderBy("id", "asc")
-
-        userRef.get()
-            .addOnSuccessListener { chats ->
-                if(chats != null){
-                    for(i in 0 until chats.size()){
-                        println("CONTENIDO $chats")
-                    }
-                }else{
-                    println("Este es print de error")
-                }
-            }
-
+//
         binding.btnsologame.setOnClickListener{
             //incia actividad solo game
             finish()

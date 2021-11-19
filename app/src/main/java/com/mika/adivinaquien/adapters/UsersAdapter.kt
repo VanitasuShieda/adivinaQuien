@@ -6,44 +6,45 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mika.adivinaquien.R
-import com.mika.adivinaquien.models.Chat
+import com.mika.adivinaquien.models.Game
 
-class UsersAdapter(val chatClick: (Chat) -> Unit): RecyclerView.Adapter<UsersAdapter.ChatViewHolder>()  {
+class UsersAdapter(private val listaGames: MutableList<Game>,
+                   private val gameClick: (Int) -> Unit):
+    RecyclerView.Adapter<UsersAdapter.GamesViewHolder>()  {
 
-    var chats: List<Chat> = emptyList()
+    var games: List<Game> = emptyList()
 
-    fun setData(list: List<Chat>){
-        chats = list
+    fun setData(list: List<Game>){
+        games = list
         notifyDataSetChanged()
     }
 
-
-    class ChatViewHolder(item: View): RecyclerView.ViewHolder(item){
+    class GamesViewHolder(item: View): RecyclerView.ViewHolder(item){
         val chatName = item.findViewById(R.id.chatNameText) as TextView
-        val usersTexe = item.findViewById(R.id.usersTextView) as TextView
-        fun bindChat(chat: Chat){
-            chatName.text=chat.name
-            usersTexe.text=chat.users.toString()
+        val usersText = item.findViewById(R.id.usersTextView) as TextView
+        fun bindGame(game: Game){
+            chatName.text=game.name
+            usersText.text=game.users.toString()
         }
     }
 
-    override fun onCreateViewHolder (parent: ViewGroup, viewType: Int): ChatViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesViewHolder {
         val item = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_users, parent, false)
-        return ChatViewHolder(item)
+            .inflate(R.layout.item_users, parent, false) as androidx.constraintlayout.widget.ConstraintLayout
+        return GamesViewHolder(item)
     }
 
-    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        val chat = chats[position]
-        holder.bindChat(chat)
-        holder.itemView.setOnClickListener {
-            chatClick(chats[position])
-        }
+    override fun onBindViewHolder(holder: GamesViewHolder, position: Int) {
+        val game =  listaGames[position]
+        holder.bindGame(game)
+        holder.itemView.setOnClickListener{gameClick(position)}
     }
 
     override fun getItemCount(): Int {
-        return chats.size
+        return listaGames.size
     }
+
+
 
 
 }
