@@ -7,7 +7,7 @@
 
     <ImageView
         android:visibility="gone"
-        android:id="@+id/checkpassword"
+        android:id="@+id/checkpass2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/newpassword2"
@@ -15,21 +15,26 @@
         app:layout_constraintTop_toTopOf="@+id/newpassword2"
         app:srcCompat="@drawable/ic_baseline_check_24" />
 
-    <EditText
-        android:id="@+id/newpassword2"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="24dp"
-        android:hint="@string/check_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/newpassword" />
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/checkpass1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/newpassword"
+        app:layout_constraintStart_toEndOf="@+id/newpassword"
+        app:layout_constraintTop_toTopOf="@+id/newpassword"
+        app:srcCompat="@drawable/ic_baseline_check_24" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/checkemail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/newemail"
+        app:layout_constraintStart_toEndOf="@+id/newemail"
+        app:layout_constraintTop_toTopOf="@+id/newemail"
+        app:srcCompat="@drawable/ic_baseline_check_24" />
+
 
     <TextView
         android:id="@+id/textView"
@@ -60,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/nick"
         android:inputType="text"
@@ -74,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Contrasenia: "
+        android:text="@string/passtext"
         app:layout_constraintBottom_toBottomOf="@+id/newpassword"
         app:layout_constraintEnd_toStartOf="@+id/newpassword"
         app:layout_constraintHorizontal_bias="0.0"
@@ -86,39 +91,42 @@
         android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/newemail" />
 
+    <EditText
+        android:id="@+id/newpassword2"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/check_password"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/newpassword" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="110dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
-        android:text="Verifica \nContrasenia: "
+        android:text="@string/passcheck2"
         app:layout_constraintBottom_toBottomOf="@+id/newpassword2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/newpassword2" />
 
-    <Button
-        android:id="@+id/registercheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="48dp"
-        android:text="Comprobar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newimage" />
+
 
     <TextView
         android:id="@+id/textView4"
@@ -135,32 +143,66 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Imagen: "
+        android:text="Avatar: "
         app:layout_constraintBottom_toBottomOf="@+id/newimage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/newimage" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/newimage"
-        android:src="@drawable/common_google_signin_btn_icon_dark"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/common_google_signin_btn_icon_dark"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/newpassword2"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnselectimg"
-        android:layout_width="116dp"
-        android:layout_height="48dp"
+        android:layout_width="134dp"
+        android:layout_height="56dp"
         android:text="Seleccionar Imagen"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/newimage"
         app:layout_constraintEnd_toEndOf="@+id/newpassword2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/newimage"
-        app:layout_constraintTop_toTopOf="@+id/newimage" />
+        app:layout_constraintTop_toTopOf="@+id/newimage"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <Button
+        android:id="@+id/btncheck"
+        android:layout_width="137dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="16dp"
+        android:text="Comprobar"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnselectimg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnselectimg"
+        app:layout_constraintTop_toTopOf="@+id/btnselectimg" />
+
+    <TextView
+        android:id="@+id/alertemail"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="El Correo ya Existe"
+        app:layout_constraintEnd_toEndOf="@+id/newemail"
+        app:layout_constraintStart_toStartOf="@+id/newemail"
+        app:layout_constraintTop_toBottomOf="@+id/newemail" />
+
+    <TextView
+        android:id="@+id/alerpass"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Las Contrasenias no Coinciden"
+        app:layout_constraintEnd_toEndOf="@+id/newpassword2"
+        app:layout_constraintStart_toStartOf="@+id/newpassword2"
+        app:layout_constraintTop_toBottomOf="@+id/newpassword2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,9 @@ import com.google.firebase.ktx.Firebase
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.adapters.MessageAdapter
 import com.mika.adivinaquien.databinding.GameMultiplayBinding
+import com.mika.adivinaquien.dialogs.dialogUserInfo
+import com.mika.adivinaquien.models.Game
+import com.mika.adivinaquien.models.Gameplay
 import com.mika.adivinaquien.models.Message
 
 class GameMultiplayer : AppCompatActivity(){
@@ -81,4 +84,20 @@ class GameMultiplayer : AppCompatActivity(){
 
 
     }
+
+    private  fun defWiner(otherplayer: String , result: String){
+        val partida = Gameplay(
+                vs= otherplayer,
+                status = result,
+            )
+
+        db.collection("users").document(user).collection("Multiplayergames").document().set(partida)
+    }
 }
+
+//en el juego multijugador
+// if(has ganado){
+//  defWiner(OtroJugador, "Victoria")
+// else
+// defWiner(otrojugador, "Derrota")
+

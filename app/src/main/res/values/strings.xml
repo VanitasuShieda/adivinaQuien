@@ -14,4 +14,9 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="passtext">Copntrasenia</string>
+    <string name="action_tosecpass">Siguiente</string>
+    <string name="passcheck2">repet Contrasenia</string>
+    <string name="title_activity_fullscreen2">FullscreenActivity2</string>
+    <string name="nicktext">Nick:</string>
 </resources>

@@ -2,7 +2,6 @@ package com.mika.adivinaquien.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -18,6 +17,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.mika.adivinaquien.BuildConfig
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.databinding.ActivityFullscreenBinding
@@ -34,13 +34,12 @@ import java.util.*
  */
 class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterListener,
     dialogLogin.dialogLoginListener{
-
-    private val pkN = BuildConfig.APPLICATION_ID
-    private var uri = Uri.parse("android.resource://$pkN/${R.drawable.user}")
     private lateinit var bindinglogin: DialogLoginBinding
     private lateinit var bindingregistro: DialogRegisterBinding
     private val auth = Firebase.auth
     private var db = Firebase.firestore
+    private lateinit var mStorage: FirebaseStorage
+    private lateinit var mReference: StorageReference
 
 
     private lateinit var binding: ActivityFullscreenBinding
@@ -143,107 +142,26 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
         }
     }
 
-    override fun applyReg(nick: String, email: String, pass: String, pass2: String, imgFoto: Uri?) {
+    override fun applyReg(nick: String, email: String, pass: String, uri:  Uri) {
 
-        // necesito checar que pex con la carga de imagen por que no se sube
-
-
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Uploading File. . .")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
-
-        if (imgFoto != null) {
-
-            if (email != "" && pass != "" && nick != "" && bindingregistro.newpassword.text != bindingregistro.newpassword2.text) {
-                val Uid = UUID.randomUUID().toString()
-                val userinfo = User(
+        val Uid = UUID.randomUUID().toString()
+        val userinfo = User(
                     online = true,
                     id = Uid,
                     nick = nick,
                     email = email,
-                    wins = 0,
-                    loses = 0,
+                    solowins = 0,
+                    sololoses = 0,
+                    multiwins = 0,
+                    multiloses = 0,
                     multiplayergames = listOf("Sin Partidas", "Jugadas")
                 )
 
                 db.collection("users").document(email.lowercase()).set(userinfo)
                 // intent.putExtra("ID", Uid)
-                val storageRef = FirebaseStorage.getInstance().getReference("images/$email")
 
-                storageRef.putFile(imgFoto).addOnSuccessListener {
-                    Toast.makeText(this@FullscreenActivity, "Succesfuly upload", Toast.LENGTH_SHORT)
-                        .show()
-                    if (progressDialog.isShowing) progressDialog.dismiss()
-                }.addOnFailureListener {
-                    if (progressDialog.isShowing) progressDialog.dismiss()
-                    Toast.makeText(this@FullscreenActivity, "Failed to Upload", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                createUser(email, pass)
-            } else if (nick == "") {
-                Toast.makeText(
-                    baseContext,
-                    "El Usuario No puede Estar En blanco",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else if (pass != pass2) {
-                Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG)
-                    .show()
-            } else if (email == "") {
-                Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG)
-                    .show()
-            }
-        } else {
 
-            if (email != "" && pass != "" && nick != "" && bindingregistro.newpassword.text != bindingregistro.newpassword2.text) {
-                val Uid = UUID.randomUUID().toString()
-                val userinfo = User(
-                    online = true,
-                    id = Uid,
-                    nick = nick,
-                    email = email,
-                    wins = 0,
-                    loses = 0,
-                    multiplayergames = listOf("Sin Partidas", "Jugadas")
-                )
-
-                db.collection("users").document(email.lowercase()).set(userinfo)
-                // intent.putExtra("ID", Uid)
-                val storageRef = FirebaseStorage.getInstance().getReference("images/$email")
-                //imagen predeterminada
-                storageRef.putFile(uri).addOnSuccessListener {
-                    Toast.makeText(
-                        this@FullscreenActivity,
-                        "Succesfuly upload Default",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    if (progressDialog.isShowing) progressDialog.dismiss()
-                }.addOnFailureListener {
-                    if (progressDialog.isShowing) progressDialog.dismiss()
-                    Toast.makeText(
-                        this@FullscreenActivity,
-                        "Failed to Upload Default",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                createUser(email, pass)
-            } else if (nick == "") {
-                Toast.makeText(
-                    baseContext,
-                    "El Usuario No puede Estar En blanco",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else if (pass != pass2) {
-                Toast.makeText(baseContext, "Las contrasenias no Coinciden", Toast.LENGTH_LONG)
-                    .show()
-            } else if (email == "") {
-                Toast.makeText(baseContext, "El Correo No puede Estar En blanco", Toast.LENGTH_LONG)
-                    .show()
-            }
-
-        }
-
+                createUser(email.lowercase(), pass, uri)
 
     }
 
@@ -251,6 +169,7 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
         val currentUser = auth.currentUser
 
         if (currentUser != null) {
+
             val intent = Intent(this, GameMenu::class.java)
             intent.putExtra("User", currentUser.email)
 
@@ -260,11 +179,40 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
         }
     }
 
-    private fun createUser(email: String, pass: String) {
+    private fun checkUser(uri: Uri, email: String) {
+        val currentUser = auth.currentUser
+
+
+
+        if (currentUser != null) {
+
+            mStorage = FirebaseStorage.getInstance()
+            mReference = mStorage.reference
+
+            val imgRef = mReference.child("images/$email")
+
+            imgRef.putFile(uri).addOnSuccessListener {
+                Toast.makeText(this, "Succesfuly upload", Toast.LENGTH_SHORT)
+                    .show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed to Upload", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            val intent = Intent(this, GameMenu::class.java)
+            intent.putExtra("User", currentUser.email)
+
+            startActivity(intent)
+
+            finish()
+        }
+    }
+
+    private fun createUser(email: String, pass: String, uri: Uri) {
 
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                checkUser()
+                checkUser(uri, email)
             } else {
                 task.exception?.let {
                     Toast.makeText(baseContext, it.message, Toast.LENGTH_LONG).show()
