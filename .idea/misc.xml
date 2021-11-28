@@ -9,7 +9,9 @@
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_fullscreen2.xml" value="0.23177083333333334" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_game_solo.xml" value="0.3625" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_users_list.xml" value="0.35778985507246375" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/answercpu_dialog.xml" value="0.1" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/chat.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/cpuquestion_dialog.xml" value="0.1" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/decideturn_dialog.xml" value="0.3625" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/dialog_info.xml" value="0.1" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/dialog_login.xml" value="0.11775362318840579" />
@@ -20,6 +22,8 @@
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/item_game.xml" value="0.5" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/item_msg.xml" value="0.22604166666666667" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/item_users.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/listitem_monstersplayer2.xml" value="0.2265625" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/pruebas_diseno.xml" value="0.3625" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/users_list.xml" value="0.33" />
       </map>
     </option>

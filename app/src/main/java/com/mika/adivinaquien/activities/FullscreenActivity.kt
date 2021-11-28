@@ -154,7 +154,6 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
                     sololoses = 0,
                     multiwins = 0,
                     multiloses = 0,
-                    multiplayergames = listOf("Sin Partidas", "Jugadas")
                 )
 
                 db.collection("users").document(email.lowercase()).set(userinfo)

@@ -112,7 +112,6 @@ class GameMenu: AppCompatActivity() {
                         sololoses = document.getLong("sololoses")?.toInt()!!,
                         multiwins = document.getLong("multiwins")?.toInt()!!,
                         multiloses = document.getLong("multiloses")?.toInt()!!,
-                        multiplayergames = emptyList()
                     )
 
                     val infoDialog = dialogUserInfo(userinfo, bitmap)

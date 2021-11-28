@@ -20,15 +20,19 @@ import com.mika.adivinaquien.adapters.AdaptadorMonsters
 import com.mika.adivinaquien.models.Player
 
 //muestra el deck y se pide seleccionar un monstruo
-class DialogSelectMonster(context: Context, private val player: Player): DialogFragment() {
+class DialogSelectMonster(context: Context, private val player: Player, private  val itemType:Int): DialogFragment() {
     //interface de listener para la info que se recupera del dialog
     private lateinit var listener: DialogSelectMonsterListener
     interface DialogSelectMonsterListener {
-        fun applySelectMonster(player: Player)
+        fun applySelectMonster(player: Player, itemType:Int)
     }
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
+            var titulo:String="Selecciona tu monstruo"
+            if(itemType==1){//Si se llama desde "tu monstruo es"
+                titulo="Tu monstruo es..."
+            }
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
             //vínculo con el layout selectmonsters_dialog.xml
@@ -43,10 +47,14 @@ class DialogSelectMonster(context: Context, private val player: Player): DialogF
             recView_monstersSelect.adapter = adaptador
             //Botones del dialog
             builder.setView(binding)
-                .setTitle("Selecciona tu monstruo")
+                .setTitle(titulo)
                 .setPositiveButton("Ok",
                     DialogInterface.OnClickListener { dialog, id ->
-                        listener.applySelectMonster(player)
+                        listener.applySelectMonster(player,itemType)
+                    })
+                .setNegativeButton("Cerrar",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        getDialog()?.dismiss()
                     })
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
@@ -59,6 +67,10 @@ class DialogSelectMonster(context: Context, private val player: Player): DialogF
         if (d != null) {
             val positiveButton: Button = d.getButton(Dialog.BUTTON_POSITIVE) as Button
             positiveButton.visibility=View.INVISIBLE
+            if(itemType==0){
+                val negativeButton: Button = d.getButton(Dialog.BUTTON_NEGATIVE) as Button
+                negativeButton.visibility=View.INVISIBLE
+            }
         }
     }
     //Para hacer más grande el dialog
@@ -88,23 +100,47 @@ class DialogSelectMonster(context: Context, private val player: Player): DialogF
             //deselecciona el deck entero
             for (i in 0 until items.size) {
                 items[i].background = null
-                player.setCardChoiced(-1)
+                if(itemType==0){
+                    player.setCardChoiced(-1)
+                }
+                else{
+                    player.setCardChoicedAnswer(-1)
+                }
             }
             //selecciona al monstruo al que se le hizo click
             items[it].setBackgroundResource(R.drawable.seleccionado)
-            player.setCardChoiced(player.getMyDeck()[it].id)
+            if(itemType==0){
+                player.setCardChoiced(player.getMyDeck()[it].id)
+            }
+            else{
+                player.setCardChoicedAnswer(player.getMyDeck()[it].id)
+            }
+
         }//quita la selección si se vuelve a hacer click
         else{
             items[it].background = null
-            player.setCardChoiced(-1)
+            if(itemType==0){
+                player.setCardChoiced(-1)
+            }
+            else{
+                player.setCardChoicedAnswer(-1)
+            }
+
         }
         //Sí hay una elección se habilita el botón 'ok'
         val d = dialog as AlertDialog?
         if (d != null) {
             val positiveButton: Button = d.getButton(Dialog.BUTTON_POSITIVE) as Button
-            if(player.getCardChoiced()==-1){
-                positiveButton.visibility=View.INVISIBLE
-            }else{positiveButton.visibility=View.VISIBLE}
+            if(itemType==0){
+                if(player.getCardChoiced()==-1){
+                    positiveButton.visibility=View.INVISIBLE
+                }else{positiveButton.visibility=View.VISIBLE}
+            }else if(itemType==1){
+                if(player.getCardChoicedAnswer()==-1){
+                    positiveButton.visibility=View.INVISIBLE
+                }else{positiveButton.visibility=View.VISIBLE}
+            }
+
         }
     }
 }

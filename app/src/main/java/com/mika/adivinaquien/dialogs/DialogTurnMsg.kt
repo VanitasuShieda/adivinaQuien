@@ -1,19 +1,17 @@
 package com.mika.adivinaquien.dialogs
 
-import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.models.Player
 
+//muestra un mensaje indicando de quien es el turno
 class DialogTurnMsg(context: Context, private val player: Player): DialogFragment() {
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
@@ -32,7 +30,5 @@ class DialogTurnMsg(context: Context, private val player: Player): DialogFragmen
             builder.setView(binding)
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
-
     }
-
 }

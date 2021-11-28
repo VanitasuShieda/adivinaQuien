@@ -1,4 +1,4 @@
-package com.mika.adivinaquien.dialogs
+package com.example.guesswhosingleplayer
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -6,11 +6,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
-import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.DialogFragment
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.models.Player

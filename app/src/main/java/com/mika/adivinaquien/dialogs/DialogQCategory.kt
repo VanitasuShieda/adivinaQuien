@@ -9,9 +9,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
-import androidx.core.view.get
-import androidx.core.view.size
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +16,7 @@ import com.mika.adivinaquien.R
 import com.mika.adivinaquien.adapters.AdaptadorAttributes
 import com.mika.adivinaquien.models.Attribute
 
+//Dialog que muestra la lista de categorías o de atributos, esto dependiendo del itemType
 class DialogQCategory (context: Context, private val itemType:Int): DialogFragment() {
     //interface de listener para la info que se recupera del dialog
     private lateinit var listener: DialogQCategoryListener
@@ -28,9 +26,9 @@ class DialogQCategory (context: Context, private val itemType:Int): DialogFragme
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            var inDialog=""
-            var titulo:String=""
-            var boton: String="Volver"
+            var inDialog="" //Para identificar en que dialog nos encontramos y cual lista se mostrará
+            var titulo:String=""//Texto del título de dialog el cual cambia dependiendo del itemType
+            var boton: String="Volver"//Texto del botón el cual cambia dependiendo del itemType
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
             //vínculo con el layout qcategory_dialog.xml
@@ -75,7 +73,10 @@ class DialogQCategory (context: Context, private val itemType:Int): DialogFragme
                 .setTitle(titulo)
                 .setNegativeButton(boton,
                     DialogInterface.OnClickListener { dialog, id ->
-                        getDialog()?.cancel()
+                        getDialog()?.dismiss()
+                        if(boton=="Volver"){
+                            listener.applyQCategory(-1,"volver")
+                        }
                     })
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
@@ -89,7 +90,7 @@ class DialogQCategory (context: Context, private val itemType:Int): DialogFragme
         params.height = ActionBar.LayoutParams.WRAP_CONTENT
         dialog!!.window!!.attributes = params as WindowManager.LayoutParams
     }
-    //ara funcionamiento del listener
+    //Para funcionamiento del listener
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
@@ -101,9 +102,11 @@ class DialogQCategory (context: Context, private val itemType:Int): DialogFragme
                     " must implementDialogSelectMonsterListener"))
         }
     }
-
+    //Cuando se selecciona un ítem el dialog se cierra y se llama a applyQCategory
     fun onItemSelect(it: Int, binding: View, inDialog: String){
         val items: RecyclerView =binding.findViewById(R.id.recView_question)
+        val d = dialog as AlertDialog?
+        d?.dismiss()
         listener.applyQCategory(it,inDialog)
     }
 }

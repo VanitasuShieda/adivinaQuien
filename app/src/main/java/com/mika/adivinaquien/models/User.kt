@@ -9,7 +9,4 @@ data class User(
     var sololoses: Int = 0,
     var multiwins: Int = 0,
     var multiloses: Int = 0,
-    var multiplayergames: List<String> = emptyList()
-    //Contra quien jugo y el resultado de la partida
-    //Ejemplo: listof(User2, Victoria)
 )

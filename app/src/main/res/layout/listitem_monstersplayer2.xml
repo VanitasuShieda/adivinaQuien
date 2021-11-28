@@ -3,12 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <!-- Back Layout Goes Here -->
+        <ImageView
+            android:id="@+id/monsterBack_image"
+            android:layout_width="27dp"
+            android:layout_height="35dp"
+            android:layout_marginHorizontal="1dp"
+            android:layout_marginVertical="0dp"
+            android:alpha="0"
+            android:src="@drawable/reverso2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!-- Front Layout Goes Here -->
+        <ImageView
+            android:id="@+id/monsterFront_image"
+            android:layout_width="27dp"
+            android:layout_height="35dp"
+            android:layout_marginHorizontal="1dp"
+            android:layout_marginVertical="0dp"
+            android:src="@drawable/reverso"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/monsterFront_image"
-        android:layout_width="27dp"
-        android:layout_height="35dp"
-        android:layout_marginHorizontal="1dp"
-        android:layout_marginVertical="0dp"
-        android:src="@drawable/reverso" />
 </LinearLayout>
