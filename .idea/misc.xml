@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.21875" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/drawable/seleccionado.xml" value="0.24114583333333334" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_fullscreen.xml" value="0.23822463768115942" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_fullscreen2.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_game_solo.xml" value="0.3625" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/activity_users_list.xml" value="0.35778985507246375" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/answercpu_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/chat.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/cpuquestion_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/decideturn_dialog.xml" value="0.3625" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/dialog_info.xml" value="0.1" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/dialog_login.xml" value="0.11775362318840579" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/dialog_register.xml" value="0.33" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/game_menu.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/game_multiplay.xml" value="0.25" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/game_soloplay.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/item_game.xml" value="0.5" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/item_msg.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/item_users.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/listitem_monstersplayer2.xml" value="0.2265625" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/pruebas_diseno.xml" value="0.3625" />
+        <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/users_list.xml" value="0.33" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/activity_fullscreen.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/activity_fullscreen2.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/activity_game_solo.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/activity_users_list.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/answercpu_dialog.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/dialog_finish.xml" value="0.4" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/duelturn_dialog.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/game_menu.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/game_multiplay.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/listitem_monsters.xml" value="0.72" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/qcategory_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien-main/app/src/main/res/layout/selectmonsters_dialog.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.4" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
