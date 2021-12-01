@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -85,11 +86,17 @@ class DialogDuelTurn (context: Context, private val player1: Player, private val
         //Después de 15050 milisegundos se dan los resultados
         Handler(Looper.getMainLooper()).postDelayed({
             if(player1.getPpt() == player2.getPpt()){
+                val mp= MediaPlayer.create(context,R.raw.draw)
+                mp.setVolume(1.0f, 1.0f)
+                mp.start()
                 result.text="¡Es un empate!"
                 closeDialog(true)
 
             }
             if((player1.getPpt()==0 && player2.getPpt()==1) || (player1.getPpt()==1 && player2.getPpt()==2) || (player1.getPpt()==2 && player2.getPpt()==0) ){
+                val mp= MediaPlayer.create(context,R.raw.lose)
+                mp.setVolume(1.0f, 1.0f)
+                mp.start()
                 result.text="¡Perdiste!"
                 result2.text="El jugador 2 comienza primero"
                 player1.setIsFirst(false)
@@ -97,13 +104,16 @@ class DialogDuelTurn (context: Context, private val player1: Player, private val
                 closeDialog(false)
             }
             if((player1.getPpt() == 0 && player2.getPpt() == 2) || (player1.getPpt() == 1 && player2.getPpt() == 0) || (player1.getPpt() == 2 && player2.getPpt() == 1)){
+                val mp= MediaPlayer.create(context,R.raw.win)
+                mp.setVolume(1.0f, 1.0f)
+                mp.start()
                 result.text="¡Ganaste!"
                 result2.text="El jugador 1 comienza primero"
                 player1.setIsFirst(true)
                 player2.setIsFirst(false)
                 closeDialog(false)
             }
-        }, 1080)
+        }, 1090)
     }
 
     private fun closeDialog(isDraw: Boolean) {
@@ -111,7 +121,7 @@ class DialogDuelTurn (context: Context, private val player1: Player, private val
             listener.applyDuelTurn(player1,player2,isDraw)
             val d = dialog as AlertDialog?
             d?.dismiss()
-        }, 1500)
+        }, 1900)
     }
 
     fun animacion(choice: ImageView, player: Player, translation: Float) {
@@ -121,7 +131,7 @@ class DialogDuelTurn (context: Context, private val player1: Player, private val
             2 -> choice.setImageResource(R.drawable.scissors)
         }
         ObjectAnimator.ofFloat(choice, "translationX", translation).apply {
-            duration = 1000
+            duration = 1200
             start()
         }
     }

@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -19,6 +21,13 @@ class DialogDecideTurn (context: Context, private val player: Player): DialogFra
     interface DialogDecideTurnListener{
         fun applyDecideTurn(player: Player)
     }
+    //Variables para el efecto de sonido
+    private val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+    private  val sp: SoundPool =
+        SoundPool.Builder().setMaxStreams(6).setAudioAttributes(audioAttributes).build()
+    private val pop: Int = sp.load(context,R.raw.pop,1)
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -66,6 +75,8 @@ class DialogDecideTurn (context: Context, private val player: Player): DialogFra
         }
     }
     fun onItemSelect(button: ImageView, buttonNotSelected1: ImageView, buttonNotSelected2: ImageView){
+        //Se reproduce el sonido
+        sp.play(pop, 1f, 1f, 1, 0, 1f)
         if(button.background==null){
             //deselecciona los otros botones
             buttonNotSelected1.background = null

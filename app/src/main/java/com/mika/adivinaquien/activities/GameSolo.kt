@@ -5,6 +5,10 @@ import android.animation.AnimatorSet
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.media.SoundPool
 import android.os.*
 import android.view.View
 import android.view.WindowInsets
@@ -30,6 +34,19 @@ import com.mika.adivinaquien.models.User
 import java.io.File
 
 class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterListener, DialogDecideTurn.DialogDecideTurnListener, DialogDuelTurn.DialogDuelTurnListener, DialogQCategory.DialogQCategoryListener, DialogDoQuestion.DialogDoQuestionListener, DialogResolve.DialogResolveListener, DialogCpuQuestion.DialogCpuQuestionListener, DialogResults.DialogResultsListener, DialogFinish.DialogFinishListener{
+    //variables para el efecto de sonido
+    private lateinit var audioAttributes: AudioAttributes
+    private lateinit var sp: SoundPool
+    private var swoosh: Int = 0
+    private var swoosh2: Int = 0
+    private var yes: Int = 0
+    private var no: Int = 0
+    private var victory: Int = 0
+    private var defeat: Int = 0
+    private var boxing: Int = 0
+    private lateinit var mp: MediaPlayer
+
+
     private var usermail=""
     private var db = FirebaseFirestore.getInstance()
     private var bitmap: Bitmap? = null
@@ -81,10 +98,25 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
             println(exeption)
         }
         player2.setNickname("CPU")
+        audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+        sp = SoundPool.Builder().setMaxStreams(6).setAudioAttributes(audioAttributes).build()
+        swoosh = sp.load(this,R.raw.swoosh,1)
+        swoosh2 = sp.load(this,R.raw.swoosh2,1)
+        yes = sp.load(this,R.raw.yes,1)
+        no = sp.load(this,R.raw.no,1)
+        victory = sp.load(this,R.raw.victory,1)
+        defeat = sp.load(this,R.raw.defeat,1)
+        boxing = sp.load(this,R.raw.boxing,1)
+        //Reproducción de música
+        mp=MediaPlayer.create(this,R.raw.games)
+        mp.setVolume(0.5f, 0.5f)
+        mp.start()
+        mp.isLooping = true
         val selectMonsterDialog = DialogSelectMonster(this, player1, 0)
         selectMonsterDialog.isCancelable=false
         selectMonsterDialog.show(supportFragmentManager, "Selecciona tu monstruo")
-
     }
 
     override fun applySelectMonster(player: Player,itemType:Int) {
@@ -102,6 +134,7 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
     }
 
     override fun applyDecideTurn(player: Player) {
+        sp.play(boxing, 0.3f, 0.3f, 1, 0, 1f)
         this.player1=player
         player2.setPpt((0..2).random())
         val duelTurnDialog = DialogDuelTurn(this, player1, player2)
@@ -142,6 +175,8 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
 
         //Tablero 1
         adaptador = AdaptadorMonsters(player1, 0){
+            //Se reproduce el sonido
+            sp.play(swoosh, 1f, 1f, 1, 0, 1f)
             val items: RecyclerView =superBinding.recViewMonsters
             //se definen las animaciones de flip
             val front_anim = AnimatorInflater.loadAnimator(applicationContext,R.animator.animation_vertical_flip_front_in) as AnimatorSet
@@ -212,11 +247,13 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
         val turnMsgDialog = DialogTurnMsg(this, player2)
         turnMsgDialog.show(supportFragmentManager, "mensaje de turno")
         Handler(Looper.getMainLooper()).postDelayed({
+            //Se selecciona al azar una pregunta
             var questionsIndex: Int
-            if(player2.getQuestionsChoseCPU().size==0){
-                questionsIndex=(0 until player2.getQuestionsCPU().size).random()
-                player2.getQuestionsChoseCPU().add(questionsIndex)
-            }else{
+            //lógica para preguntas oportunas cuando queden pocas cartas
+            if(player2.countReverseInt()<=10){
+                questionsIndex=preguntaPertinente()
+            }
+            else{
                 while (true){
                     questionsIndex=(0 until player2.getQuestionsCPU().size).random()
                     if (!player2.getQuestionsChoseCPU().contains(questionsIndex)) {
@@ -230,6 +267,66 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
             cpuQuestionDialog.isCancelable=false
             cpuQuestionDialog.show(supportFragmentManager, "Pregunta CPU")
         }, 1900)
+    }
+
+    fun preguntaPertinente(): Int{
+        var questionsIndex=0
+        //Se determina la primera carta que aún siga levantada
+        for (i in player2.getMyDeck().indices){
+            if(player2.getMyDeck()[i].isReverse==false){
+                while (true){
+                    questionsIndex=(0 until player2.getQuestionsCPU().size).random()
+                    if (!player2.getQuestionsChoseCPU().contains(questionsIndex)) {
+                        when(questionsIndex){
+                            0 -> {if(player2.getMyDeck()[i].color=="VERDE") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            1 -> {if(player2.getMyDeck()[i].color=="ROJO") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            2 -> {if(player2.getMyDeck()[i].color=="MORADO") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            3 -> {if(player2.getMyDeck()[i].color=="AZUL") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            4 -> {if(player2.getMyDeck()[i].color=="CAFÉ") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            5 -> {if(player2.getMyDeck()[i].color=="GRIS") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            6 -> {if(player2.getMyDeck()[i].eyes==1) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            7 -> {if(player2.getMyDeck()[i].eyes==2) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            8 -> {if(player2.getMyDeck()[i].eyes==3) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            9 -> {if(player2.getMyDeck()[i].furry) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            10 -> {if(player2.getMyDeck()[i].nose) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            11 -> {if(player2.getMyDeck()[i].teeth) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            12 -> {if(player2.getMyDeck()[i].tongue) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            13 -> {if(player2.getMyDeck()[i].antennae) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            14 -> {if(player2.getMyDeck()[i].horns) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            15 -> {if(player2.getMyDeck()[i].ears) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            16 -> {if(player2.getMyDeck()[i].arms) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            17 -> {if(player2.getMyDeck()[i].legs) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            18 -> {if(player2.getMyDeck()[i].tentacles) player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            19 -> {if(player2.getMyDeck()[i].expression=="FELIZ") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            20 -> {if(player2.getMyDeck()[i].expression=="ENOJADO") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            21 -> {if(player2.getMyDeck()[i].expression=="TRISTE") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            22 -> {if(player2.getMyDeck()[i].expression=="SORPRENDIDO") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                            23 -> {if(player2.getMyDeck()[i].expression=="SIN EXPRESIÓN") player2.getQuestionsChoseCPU().add(questionsIndex) else continue}
+                        }
+                        break
+                    }
+                }
+                break
+            }
+        }
+        return questionsIndex
+    }
+
+    //botón de terminar partida
+    override fun applyDialogFinish(res: String) {
+        if(res=="Terminar"){
+            mp.stop()
+            val intent = Intent(this, GameMenu::class.java)
+            intent.putExtra("User", player1.getUsermail())
+            startActivity(intent)
+            finish()
+        }else if(res=="Reiniciar"){
+            mp.stop()
+            val intent = Intent(this, GameSolo::class.java)
+            intent.putExtra("User", usermail)
+            startActivity(intent)
+            finish()
+        }
     }
     //Función que agrega una pregunta con su respuesta a la lista de preguntas realizadas
     fun addQuestionsListDialog(whoAsks:Player,whoAnswers:Player,question:String,answer:Boolean){
@@ -383,6 +480,12 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
                 }
             }
         }
+        //Se reproduce el audio
+        if(answer){
+            sp.play(yes, 1f, 1f, 1, 0, 1f)
+        }else{
+            sp.play(no, 1f, 1f, 1, 0, 1f)
+        }
         //Se agrega la pregunta a la lista
         addQuestionsListDialog(player1,player2,question,answer)
         superBinding.preguntaButton.isEnabled = false
@@ -392,16 +495,35 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
     }
 
     override fun applyDialogResolve(res: String, player: Player) {
-        if(res=="Si"){
-            this.player1=player
-            val resultsDialog = DialogResults(this,player1,player2,0)
-            resultsDialog.isCancelable=false
-            resultsDialog.show(supportFragmentManager, "Resultados")
-        }else if(res=="Ok"){
-            this.player2=player
-            val resultsDialog = DialogResults(this,player1,player2,1)
-            resultsDialog.isCancelable=false
-            resultsDialog.show(supportFragmentManager, "Resultados")
+        if(res=="Si" || res=="Ok"){
+            superBinding.crono.setBackgroundColor(Color.parseColor("#E91E63"))
+            superBinding.crono.stop()
+            chronoRunning=false
+            mp.stop()
+            if(res=="Si"){
+                //Se reproduce el audio
+                if(player1.getCardChoicedAnswer()==player2.getCardChoiced()){
+                    sp.play(victory, 1f, 1f, 1, 0, 1f)
+                }else{
+                    sp.play(defeat, 1f, 1f, 1, 0, 1f)
+                }
+                this.player1=player
+                val resultsDialog = DialogResults(this,player1,player2,0)
+                resultsDialog.isCancelable=false
+                resultsDialog.show(supportFragmentManager, "Resultados")
+            }else if(res=="Ok"){
+                //Se reproduce el audio
+                if(player2.getCardChoicedAnswer()==player1.getCardChoiced()){
+                    sp.play(defeat, 1f, 1f, 1, 0, 1f)
+                }else{
+                    sp.play(victory, 1f, 1f, 1, 0, 1f)
+                }
+                chronoRunning=false
+                this.player2=player
+                val resultsDialog = DialogResults(this,player1,player2,1)
+                resultsDialog.isCancelable=false
+                resultsDialog.show(supportFragmentManager, "Resultados")
+            }
         }
     }
     override fun applyDialogCpuQuestion(res: String, indexQ:Int) {
@@ -461,6 +583,7 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
                 23 -> { for(i in player2.getMyDeck().indices) if(player2.getMyDeck()[i].expression=="SIN EXPRESIÓN") player2.getMyDeck()[i].isReverse=true.also{animarCPU(i)} }
             }
         }
+        sp.play(swoosh2, 1f, 1f, 1, 0, 1f)
         superBinding.numCartas2TextView.text=player2.countReverse()
         val TheQuestion=player2.getQuestionsCPU()[indexQ]
         //Se agrega la pregunta a la lista
@@ -475,6 +598,11 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
                     break
                 }
             }
+            val resolveDialog = DialogResolve(this, player2, 1)
+            resolveDialog.isCancelable=false
+            resolveDialog.show(supportFragmentManager, "Tu monstruo es")
+        } else if(player2.countReverseInt()==0){
+            player2.setCardChoicedAnswer(player1.getCardChoiced())
             val resolveDialog = DialogResolve(this, player2, 1)
             resolveDialog.isCancelable=false
             resolveDialog.show(supportFragmentManager, "Tu monstruo es")
@@ -515,20 +643,6 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
             startActivity(intent)
             finish()
         }else if(res=="Nueva partida"){
-            val intent = Intent(this, GameSolo::class.java)
-            intent.putExtra("User", usermail)
-            startActivity(intent)
-            finish()
-        }
-    }
-
-    override fun applyDialogFinish(res: String) {
-        if(res=="Terminar"){
-            val intent = Intent(this, GameMenu::class.java)
-            intent.putExtra("User", player1.getUsermail())
-            startActivity(intent)
-            finish()
-        }else if(res=="Reiniciar"){
             val intent = Intent(this, GameSolo::class.java)
             intent.putExtra("User", usermail)
             startActivity(intent)
