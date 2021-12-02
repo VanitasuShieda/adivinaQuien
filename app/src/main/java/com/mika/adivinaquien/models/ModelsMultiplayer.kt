@@ -8,3 +8,7 @@ data class Turn(
         var turn: Int = 0,
         var usr: String = ""
 )
+
+data class Status(
+        var result: String = ""
+)

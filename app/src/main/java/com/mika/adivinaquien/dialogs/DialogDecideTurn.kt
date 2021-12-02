@@ -1,4 +1,4 @@
-package com.example.guesswhosingleplayer
+package com.mika.adivinaquien.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog

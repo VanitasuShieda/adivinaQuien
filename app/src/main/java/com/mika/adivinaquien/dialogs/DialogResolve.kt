@@ -46,6 +46,7 @@ class DialogResolve (context: Context, private val player: Player, private val i
                 builder.setView(binding)
                     .setPositiveButton("Sí",
                         DialogInterface.OnClickListener { dialog, id ->
+                            player.setautowin(true)
                             listener.applyDialogResolve("Si",player)
                             dialog.dismiss()
                         })
@@ -53,6 +54,13 @@ class DialogResolve (context: Context, private val player: Player, private val i
                         DialogInterface.OnClickListener { dialog, id ->
                             player.setCardChoicedAnswer(-1)
                             listener.applyDialogResolve("No",player)
+                            dialog.dismiss()
+                        })
+            }else if(itemType == 2){
+                builder.setView(binding)
+                    .setPositiveButton("OK",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            listener.applyDialogResolve("Si",player)
                             dialog.dismiss()
                         })
             }else{//Sí es la resolución de la CPU

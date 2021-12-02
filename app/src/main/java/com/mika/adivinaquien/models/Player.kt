@@ -6,7 +6,7 @@ import com.mika.adivinaquien.R
 class Player() {
     //tdas las cartas
     private val monsterList:MutableList<Monster> = mutableListOf(
-        Monster(id = 0,            name = "UNI-DIENTE",            isReverse = false, color = "VERDE", eyes = 1,nose = false, legs = false, arms = false, tentacles = true, horns = false, ears = false, antennae = false, furry = false, expression = "SORPRENDIDO", teeth = true, tongue = false, R.drawable.mob0),
+        Monster(id = 0,name = "UNI-DIENTE",isReverse = false,color = "VERDE",eyes = 1,nose = false, legs = false, arms = false, tentacles = true, horns = false, ears = false, antennae = false, furry = false, expression = "SORPRENDIDO", teeth = true, tongue = false, R.drawable.mob0),
         Monster(id = 1,name = "SIMPLÓN",isReverse = false,color = "ROJO",eyes = 2,nose = false, legs = true, arms = true, tentacles = false, horns = false, ears = false, antennae = false, furry = false, expression = "SIN EXPRESIÓN", teeth = false,tongue = false, R.drawable.mob1),
         Monster(id = 2,name = "DRAGÓN",isReverse = false,color = "ROJO",eyes = 2,nose = true, legs = true, arms = true, tentacles = false, horns = true, ears = true, antennae = false, furry = false, expression = "FELIZ",teeth = true, tongue = false, R.drawable.mob2),
         Monster(id = 3,name = "TRES-OJOS",isReverse = false,color = "VERDE",eyes = 3,nose = true, legs = true, arms = true, tentacles = false, horns = false, ears = false, antennae = false, furry = false, expression = "FELIZ",teeth = true, tongue = false, R.drawable.mob3),
@@ -64,11 +64,15 @@ class Player() {
     )
     private var questionsChoseCPU: MutableList<Int> = arrayListOf()
     private var nickname:String=""
+    private var usermail :String=""
+    private var solowins :Int=0
+    private var sololoses :Int=0
     private var myDeck:MutableList<Monster> = arrayListOf()
     private var cardChoiced = -1 //la carta (id) que se escogió en el DialogSelectMonster
     private var cardChoicedAnswer = -1 //la carta (id) que se escogió en el DialogSelectMonster como respuesta de tu monstruo es
     private var ppt = -1 //piedra(0), papel(1) o tijera(2)
     private var isFirst = false
+    private var autowin = false
     //al instanciar un objeto se crea un deck con un orden aleatorio
     init {
         myDeck=randomizar()
@@ -79,6 +83,12 @@ class Player() {
     fun getQuestionsChoseCPU():MutableList<Int>{return questionsChoseCPU}
     fun getNickname():String{return nickname}
     fun setNickname(nickname: String){this.nickname=nickname}
+    fun getUsermail():String{return usermail}
+    fun setUsermail(usermail: String){this.usermail=usermail}
+    fun getSolowins():Int{return solowins}
+    fun setSolowins(solowins: Int){this.solowins=solowins}
+    fun getSololoses():Int{return sololoses}
+    fun setSololoses(sololoses: Int){this.sololoses=sololoses}
     fun getMyDeck():MutableList<Monster>{return myDeck}
     fun getCardChoiced():Int{return cardChoiced}
     fun setCardChoiced(cardChoiced:Int){this.cardChoiced=cardChoiced}
@@ -88,6 +98,8 @@ class Player() {
     fun setPpt(ppt:Int){this.ppt=ppt}
     fun getIsFirst():Boolean{return isFirst}
     fun setIsFirst(isFirst:Boolean){this.isFirst=isFirst}
+    fun getautowin():Boolean{return autowin}
+    fun setautowin(winer:Boolean){this.autowin=winer}
 
     fun randomizar(): MutableList<Monster> {
         while (myDeck.size < monsterList.size) {

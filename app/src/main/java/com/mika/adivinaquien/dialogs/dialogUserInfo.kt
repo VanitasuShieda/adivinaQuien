@@ -37,7 +37,7 @@ class dialogUserInfo(private val userinf: User?, private val bitmap: Bitmap?): D
             binding.MultiLose.text  = userinf?.multiloses.toString()
             binding.MultiWins.text  = userinf?.multiwins.toString()
 
-            user = binding.useremail.text.toString()
+            user = binding.useremail.text.toString().lowercase()
 
             val options = RequestOptions()
             options.centerCrop().fitCenter()

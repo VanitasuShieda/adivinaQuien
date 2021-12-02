@@ -1,4 +1,4 @@
-package com.example.guesswhosingleplayer
+package com.mika.adivinaquien.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -16,13 +16,15 @@ class DialogResults (context: Context, private val player1: Player, private val 
     //interface de listener para la info que se recupera del dialog
     private lateinit var listener: DialogResultsListener
     interface DialogResultsListener{
-        fun applyDialogResolve(res: String)
+        fun applyDialogResolve(res: String, player1wins: Boolean)
     }
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
+            //Para indicar si es una victoria o derrota para el player1
+            var player1wins: Boolean = false
             //vínculo con el layout results_dialog.xml
             val binding = inflater.inflate(R.layout.results_dialog, null)
             val monster1 = binding.findViewById<ImageView>(R.id.monster1_image)
@@ -39,29 +41,33 @@ class DialogResults (context: Context, private val player1: Player, private val 
                 if(player1.getCardChoicedAnswer()==player2.getCardChoiced()){
                     msgResults1.text="FELICIDADES\t 🤗"
                     msgResults2.text="HAS GANADO"
+                    player1wins=true
                 }else{
                     msgResults1.text="LASTIMA\t 😖"
                     msgResults2.text="HAS PERDIDO"
+                    player1wins=false
                 }
             }else if(itemType==1){//Si lo llamó la CPU
                 if(player2.getCardChoicedAnswer()==player1.getCardChoiced()){
                     msgResults1.text="LASTIMA\t 😖"
                     msgResults2.text="HAS PERDIDO"
+                    player1wins=false
                 }else{
                     msgResults1.text="FELICIDADES\t 🤗"
                     msgResults2.text="HAS GANADO"
+                    player1wins=true
                 }
             }
             //Botones del dialog
             builder.setView(binding)
                 .setPositiveButton("Terminar",
                     DialogInterface.OnClickListener { dialog, id ->
-                        listener.applyDialogResolve("Terminar")
+                        listener.applyDialogResolve("Terminar",player1wins)
                         dialog.dismiss()
                     })
                 .setNegativeButton("Nueva partida",
                     DialogInterface.OnClickListener { dialog, id ->
-                        listener.applyDialogResolve("Nueva partida")
+                        listener.applyDialogResolve("Nueva partida",player1wins)
                         dialog.dismiss()
                     })
             builder.create()
