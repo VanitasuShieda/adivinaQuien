@@ -16,7 +16,7 @@ class DialogResults (context: Context, private val player1: Player, private val 
     //interface de listener para la info que se recupera del dialog
     private lateinit var listener: DialogResultsListener
     interface DialogResultsListener{
-        fun applyDialogResolve(res: String, player1wins: Boolean)
+        fun applyDialogResult(res: String, player1wins: Boolean)
     }
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
@@ -62,12 +62,12 @@ class DialogResults (context: Context, private val player1: Player, private val 
             builder.setView(binding)
                 .setPositiveButton("Terminar",
                     DialogInterface.OnClickListener { dialog, id ->
-                        listener.applyDialogResolve("Terminar",player1wins)
+                        listener.applyDialogResult("Terminar",player1wins)
                         dialog.dismiss()
                     })
                 .setNegativeButton("Nueva partida",
                     DialogInterface.OnClickListener { dialog, id ->
-                        listener.applyDialogResolve("Nueva partida",player1wins)
+                        listener.applyDialogResult("Nueva partida",player1wins)
                         dialog.dismiss()
                     })
             builder.create()

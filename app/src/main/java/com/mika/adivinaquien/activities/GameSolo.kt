@@ -630,7 +630,7 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
         front_anim.start()
     }
 
-    override fun applyDialogResolve(res: String, player1wins: Boolean) {
+    override fun applyDialogResult(res: String, player1wins: Boolean) {
         if(player1wins){
             db.collection("users").document(usermail).update("solowins", player1.getSolowins()+1)
         }
