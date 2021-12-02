@@ -22,13 +22,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.FieldValue.arrayRemove
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firestore.v1.ArrayValue
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.adapters.AdaptadorMonsters
 import com.mika.adivinaquien.adapters.MessageAdapter
@@ -37,6 +37,7 @@ import com.mika.adivinaquien.dialogs.*
 import com.mika.adivinaquien.models.*
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterListener,
@@ -53,7 +54,7 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
     private var defeat: Int = 0
     private var boxing: Int = 0
     private lateinit var mp: MediaPlayer
-
+    private var cartas: ArrayList<Int> = arrayListOf()
 
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mReference: StorageReference
@@ -112,6 +113,9 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
         }.addOnFailureListener { exeption ->
             println(exeption)
         }
+
+
+
         audioAttributes =
             AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -145,6 +149,31 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
                         }
 
                         player2.setNickname(rivalnick)
+
+                        val ref = db0.collection("users").document(rivalemail).get()
+                        //Se establece el nombre de los jugadores y su imagen de perfil
+                        ref.addOnSuccessListener { document ->
+                            if (document != null) {
+                                player2.setNickname(document.data?.get("nick").toString())
+                                player2.setUsermail(user)
+                                player2.setSolowins(document.getLong("solowins")?.toInt()!!)
+                                player2.setSololoses(document.getLong("sololoses")?.toInt()!!)
+                                val imgRef = mReference.child("images/$rivalemail")
+                                val localfile = File.createTempFile("tempImg", "jpg")
+                                imgRef.getFile(localfile).addOnSuccessListener {
+                                    bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                                    val options = RequestOptions()
+                                    options.centerCrop().fitCenter()
+                                    Glide.with(this@GameMultiplayer).load(bitmap).apply(options)
+                                        .into(superBinding.user2Image2)
+                                }
+                            } else {
+                                println("Este es print de error")
+                            }
+                        }.addOnFailureListener { exeption ->
+                            println(exeption)
+                        }
+
 
                         val selectMonsterDialog = DialogSelectMonster(this, player1, 0)
                         selectMonsterDialog.isCancelable = false
@@ -290,7 +319,6 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
                         else
                             player2.setPpt(documents.documents[0].getLong("turn")?.toInt()!!)
 
-
                         dAlert.dismiss()
 
                         val duelTurnDialog = DialogDuelTurn(this, player1, player2)
@@ -429,18 +457,41 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
                 R.animator.animation_vertical_front_out
             ) as AnimatorSet
             //Sí la tarjeta no esta en su lado reverso (lado monstruo)
+
+            val postRef = FirebaseFirestore.getInstance().collection("games").document(gameId).collection("Tablero").document(user)
+            val database = FirebaseFirestore.getInstance()
+
             if (player1.getMyDeck()[it].isReverse == false) {
                 front_anim.setTarget(items[it].findViewById<ImageView>(R.id.monsterBack_image))
                 back_anim.setTarget(items[it].findViewById<ImageView>(R.id.monsterFront_image))
                 back_anim.start()
                 front_anim.start()
                 player1.getMyDeck()[it].isReverse = true
+
+                database.runTransaction { transaction ->
+                        transaction.set(
+                            postRef,
+                            hashMapOf( "$it" to arrayListOf(it)),
+                            SetOptions.merge()
+                        )
+                }.addOnFailureListener { it2->
+                    throw Exception(it2.message)
+                }
+
             } else { //Sí la tarjeta esta en su lado reverso
                 front_anim.setTarget(items[it].findViewById<ImageView>(R.id.monsterFront_image))
                 back_anim.setTarget(items[it].findViewById<ImageView>(R.id.monsterBack_image))
                 front_anim.start()
                 back_anim.start()
                 player1.getMyDeck()[it].isReverse = false
+
+                database.runTransaction { transaction ->
+                    if (transaction.get(postRef).exists()) {
+                        transaction.update(postRef, "$it", FieldValue.delete())
+                    }
+                }.addOnFailureListener { it2->
+                    throw Exception(it2.message)
+                }
             }
             //mostrar el número de tarjetas volteadas
             superBinding.numCartas1TextView2.text = player1.countReverse()
@@ -541,6 +592,7 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
                                     player1.setCardChoicedAnswer(player2.getCardChoiced())
                                 }
 
+
                                 val resolveDialog = DialogResolve(this, player1, 2)
                                 resolveDialog.isCancelable = false
                                 resolveDialog.show(supportFragmentManager, "Tu monstruo es")
@@ -551,7 +603,40 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
 
                 }
             }
-        //falta modificar campo de game
+        //listener cartas rival
+        db.collection("games").document(gameId).collection("Tablero").document(rivalemail)
+            .addSnapshotListener { card, error ->
+            if(error == null){
+                if (card != null) {
+                    if(card.data != null){
+                        var arrayonline : ArrayList<Int> =  arrayListOf()
+                        for(item in card.data!!){
+                            var aux = item.toPair()
+                            println("item: $item  aux:${aux.first} auxsec: ${aux.second}  ")
+                            if(!player2.getMyDeck()[aux.first.toInt()].isReverse ){
+                                player2.getMyDeck()[aux.first.toInt()].isReverse = true
+                                animarBackToFront(aux.first.toInt())
+                            }
+                            arrayonline.add(aux.first.toInt())
+                        }
+
+                        if(cartas != null){
+                            for(i in 0 until cartas.size){
+                                if( !arrayonline.contains(cartas[i]) ){
+                                    if( player2.getMyDeck()[cartas[i]].isReverse ){
+                                        player2.getMyDeck()[cartas[i]].isReverse = false
+                                        animarFrontToBack(cartas[i])
+                                    }
+                                }
+                            }
+                        }
+
+                        cartas = arrayonline
+
+                    }
+                }
+            }
+        }
 
 
     }
@@ -665,7 +750,7 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
                 db0.collection("users").document(user).collection("games").document(gameId)
                     .update("status", "Derrota")
                 db0.collection("users").document(rivalemail).collection("games").document(gameId)
-                    .update("status", "Voctoria")
+                    .update("status", "Victoria")
                 db0.collection("games").document(gameId).collection("GameStatus").document(user)
                     .set(Status("Derrota"))
             }
@@ -710,6 +795,28 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
             startActivity(intent)
             finish()
         }
+    }
+
+    fun animarBackToFront(i:Int){
+        val items: RecyclerView =superBinding.recView2Monsters2
+        //se definen las animaciones de flip
+        val front_anim = AnimatorInflater.loadAnimator(applicationContext,R.animator.animation_vertical_flip_front_in) as AnimatorSet
+        val back_anim = AnimatorInflater.loadAnimator(applicationContext,R.animator.animation_vertical_front_out) as AnimatorSet
+        front_anim.setTarget(items[i].findViewById<ImageView>(R.id.monsterBack_image))
+        back_anim.setTarget(items[i].findViewById<ImageView>(R.id.monsterFront_image))
+        back_anim.start()
+        front_anim.start()
+    }
+
+    fun animarFrontToBack(i:Int){
+        val items: RecyclerView =superBinding.recView2Monsters2
+        //se definen las animaciones de flip
+        val front_anim = AnimatorInflater.loadAnimator(applicationContext,R.animator.animation_vertical_flip_front_in) as AnimatorSet
+        val back_anim = AnimatorInflater.loadAnimator(applicationContext,R.animator.animation_vertical_front_out) as AnimatorSet
+        front_anim.setTarget(items[i].findViewById<ImageView>(R.id.monsterFront_image))
+        back_anim.setTarget(items[i].findViewById<ImageView>(R.id.monsterBack_image))
+        front_anim.start()
+        back_anim.start()
     }
 
 }

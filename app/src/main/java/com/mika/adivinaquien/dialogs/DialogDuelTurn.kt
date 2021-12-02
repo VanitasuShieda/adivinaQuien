@@ -4,6 +4,8 @@ import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.media.Image
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,8 +13,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.storage.StorageReference
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.models.Player
+import java.io.File
 
 //muestra animación de traslación y da los resultados del piedra papel o tijera
 class DialogDuelTurn (context: Context, private val player1: Player, private val player2: Player): DialogFragment() {
@@ -56,10 +62,12 @@ class DialogDuelTurn (context: Context, private val player1: Player, private val
         val result =binding.findViewById<TextView>(R.id.result_textView)
         val result2 =binding.findViewById<TextView>(R.id.result2_textView)
 
+
+
         //Para realizar la animación de traslación de las imagenes
         animacion(choice1, player1,100f)
         animacion(choice2, player2,-100f)
-        //Después de 15050 milisegundos se dan los resultados
+        //Después de 3 050 milisegundos se dan los resultados
         Handler(Looper.getMainLooper()).postDelayed({
             if(player1.getPpt() == player2.getPpt()){
                 result.text="¡Es un empate!"

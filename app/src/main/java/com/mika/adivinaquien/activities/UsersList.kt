@@ -1,6 +1,7 @@
 package com.mika.adivinaquien.activities
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.system.Os.remove
 import android.util.Log
@@ -9,14 +10,18 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.mika.adivinaquien.R
 import com.mika.adivinaquien.adapters.GamesListAdapter
 import com.mika.adivinaquien.adapters.UsersAdapter
 import com.mika.adivinaquien.databinding.ActivityUsersListBinding
 import com.mika.adivinaquien.models.Game
 import com.mika.adivinaquien.models.User
+import java.io.File
 import java.lang.Boolean.TRUE
 import java.util.*
 import java.util.function.Predicate
@@ -124,6 +129,31 @@ class UsersList:  AppCompatActivity() {
                     Log.d("User", "No hay, en teoria")
                 }
             }
+
+        //imagen del usuario
+        var mStorage = FirebaseStorage.getInstance()
+        var mReference = mStorage.reference
+        val refnick = db.collection("users").document(user).get()
+
+        refnick.addOnSuccessListener { document ->
+            if(document != null){
+                binding.usernick.text =  document.data?.get("nick").toString()
+                val imgRef = mReference.child("images/$user")
+                val localfile = File.createTempFile("tempImg","jpg")
+
+                imgRef.getFile(localfile).addOnSuccessListener {
+                    var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                    val options = RequestOptions()
+                    options.centerCrop().fitCenter()
+                    Glide.with(this@UsersList).load(bitmap).apply(options).into(binding.myimagemenu)
+
+                }
+            }else{
+                println("Este es print de error")
+            }
+        }.addOnFailureListener{ exeption ->
+            println(exeption)
+        }
 
 
         if (user.isNotEmpty()){
