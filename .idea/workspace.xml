@@ -14,14 +14,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0abd912-96d8-42cb-8fcf-70bc80b6a831" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mika/adivinaquien/activities/GameMultiplayer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mika/adivinaquien/activities/GameMultiplayer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mika/adivinaquien/dialogs/DialogDuelTurn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mika/adivinaquien/dialogs/DialogDuelTurn.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/duelturn_dialog.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/duelturn_dialog.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e0abd912-96d8-42cb-8fcf-70bc80b6a831" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
