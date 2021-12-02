@@ -31,17 +31,34 @@ class MessageAdapter(private val user: String): RecyclerView.Adapter<MessageAdap
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val message = messages[position]
 
-        if(user == message.from){
-            holder.itemView.findViewById<ConstraintLayout>(R.id.myMessageLayout).visibility = View.VISIBLE
-            holder.itemView.findViewById<ConstraintLayout>(R.id.otherMessageLayout).visibility = View.GONE
 
-            holder.itemView.findViewById<TextView>(R.id.myMessageTextView).text = message.message
-        } else {
-            holder.itemView.findViewById<ConstraintLayout>(R.id.myMessageLayout).visibility = View.GONE
-            holder.itemView.findViewById<ConstraintLayout>(R.id.otherMessageLayout).visibility = View.VISIBLE
 
-            holder.itemView.findViewById<TextView>(R.id.othersMessageTextView).text = message.message
-        }
+
+            if(user == message.from){
+                if(message.message != "TURNO") {
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.myMessageLayout).visibility =
+                        View.VISIBLE
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.otherMessageLayout).visibility =
+                        View.GONE
+                    holder.itemView.findViewById<TextView>(R.id.myMessageTextView).text =
+                        message.message
+                }else{
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.myMessageLayout).visibility =
+                        View.GONE
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.otherMessageLayout).visibility =
+                        View.GONE
+                }
+            } else {
+                if(message.message != "TURNO"){
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.myMessageLayout).visibility = View.GONE
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.otherMessageLayout).visibility = View.VISIBLE
+                    holder.itemView.findViewById<TextView>(R.id.othersMessageTextView).text = message.message
+                }else{
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.myMessageLayout).visibility = View.GONE
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.otherMessageLayout).visibility = View.GONE
+                }
+            }
+
 
     }
 

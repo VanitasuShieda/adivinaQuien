@@ -21,6 +21,8 @@ import com.mika.adivinaquien.models.Questions
 
 class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterListener, DialogDecideTurn.DialogDecideTurnListener, DialogDuelTurn.DialogDuelTurnListener, DialogQCategory.DialogQCategoryListener, DialogDoQuestion.DialogDoQuestionListener, DialogResolve.DialogResolveListener, DialogCpuQuestion.DialogCpuQuestionListener, DialogResults.DialogResultsListener{
     private var chronoRunning = false //Determina si el cronómetro esta corriendo
+    private var nick = ""
+    private var user = ""
     private var player1 = Player()
     private var player2 = Player()
     private var numTurns = 0 //Número de turnos (contador)
@@ -32,24 +34,14 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
         val binding = ActivityGameSoloBinding.inflate(layoutInflater)
         superBinding=binding
         setContentView(binding.root)
-        //Pantalla completa
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-        window.decorView.apply {
-            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-        }
 
         //PREPARATIVOS==========================================================================================================
 
+        //se obtiene el nick y usuario
+        intent.getStringExtra("User")?.let { user = it }
+        intent.getStringExtra("Nick")?.let { nick = it }
         //Se establece el nombre de los jugadores
-        player1.setNickname("Player1")
+        player1.setNickname(nick)
         player2.setNickname("CPU")
         val selectMonsterDialog = DialogSelectMonster(this, player1, 0)
         selectMonsterDialog.isCancelable=false
@@ -60,6 +52,7 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
     override fun applySelectMonster(player: Player,itemType:Int) {
         this.player1=player
         if(itemType==0){//Selecciona tu carta
+
             val decideTurnDialog = DialogDecideTurn(this, player)
             decideTurnDialog.isCancelable=false
             decideTurnDialog.show(supportFragmentManager, "Decidir turno")

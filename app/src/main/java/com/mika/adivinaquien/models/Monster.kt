@@ -1,6 +1,6 @@
 package com.mika.adivinaquien.models
 
-class Monster(
+data class Monster(
     val id: Int,
     val name: String,
     var isReverse: Boolean,
@@ -18,6 +18,4 @@ class Monster(
     val teeth: Boolean,
     val tongue: Boolean,
     val imagen: Int
-    ){
-
-}
+    )

@@ -45,6 +45,8 @@ class DialogSelectMonster(context: Context, private val player: Player, private 
             val recView_monstersSelect = binding.findViewById<RecyclerView>(R.id.recView_monstersSelect)
             recView_monstersSelect.layoutManager= GridLayoutManager(context, 10)
             recView_monstersSelect.adapter = adaptador
+
+
             //Botones del dialog
             builder.setView(binding)
                 .setTitle(titulo)

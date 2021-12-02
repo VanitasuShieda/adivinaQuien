@@ -35,10 +35,7 @@ class Attribute (){
     private var limbs:MutableList<Categories> = mutableListOf(
         Categories(R.drawable.arms,"Con brazos"),
         Categories(R.drawable.legs,"Con piernas"),
-        Categories(R.drawable.tentacle,"Con tentáculos"),
-        Categories(R.drawable.no_arms,"Sin brazos"),
-        Categories(R.drawable.no_legs,"Sin piernas"),
-        Categories(R.drawable.no_tentacle,"Sin tentáculos")
+        Categories(R.drawable.tentacle,"Con tentáculos")
     )
     private var expression:MutableList<Categories> = mutableListOf(
         Categories(R.drawable.happy,"Feliz"),

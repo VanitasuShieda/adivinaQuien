@@ -3,37 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/chatbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="134dp" />
+    android:layout_height="match_parent"
+    tools:context=".activities.GameMultiplayer">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chatgame"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.GameMultiplayer">
+        >
+
+        <Button
+            android:id="@+id/closechatbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cerrar Chat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
         <EditText
             android:id="@+id/messageTextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="16dp"
             android:ems="10"
             android:hint="Escribe Mensaje"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sendMessageButton"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/messagesRecylerView" />
 
         <Button
             android:id="@+id/sendMessageButton"
@@ -60,6 +63,207 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_msg" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tablero2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.GameMultiplayer"
+        android:visibility="visible"
+        android:background="#FADBD8">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout22"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#ABEBC6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageView
+                android:id="@+id/user2_image2"
+                android:layout_width="67dp"
+                android:layout_height="75dp"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginVertical="3dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/cpu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/numCartas2_TextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="28 / 28"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user2_image2" />
+
+            <TextView
+                android:id="@+id/numTurnos_TextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turnos"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Chronometer
+                android:id="@+id/crono2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numTurnos_TextView2" />
+
+            <TextView
+                android:id="@+id/numCartas1_TextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="28 / 28"
+                app:layout_constraintBottom_toTopOf="@+id/user1_image2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/user1_image2"
+                android:layout_width="67dp"
+                android:layout_height="75dp"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginVertical="3dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/user"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/myMonster_image2"
+            android:layout_width="67dp"
+            android:layout_height="75dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginVertical="3dp"
+            android:layout_marginStart="22dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintBottom_toBottomOf="@+id/recView_monsters2"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout22"
+            app:layout_constraintTop_toTopOf="@+id/recView_monsters2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView_monsters2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout32"
+            app:layout_constraintStart_toEndOf="@+id/myMonster_image2"
+             />
+
+        <ImageView
+            android:id="@+id/monsterSelectP2_image2"
+            android:layout_width="37dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/reverso"
+            app:layout_constraintBottom_toBottomOf="@+id/recView2_monsters2"
+            app:layout_constraintEnd_toStartOf="@+id/recView2_monsters2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView2_monsters2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout32"
+            app:layout_constraintStart_toEndOf="@+id/myMonster_image2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout32"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#ABEBC6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <Button
+                android:id="@+id/terminar_button2"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#F80457"
+                android:paddingHorizontal="5dp"
+                android:text="Terminar partida"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/chatbtn"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#3F51B5"
+                android:paddingHorizontal="5dp"
+                android:text="Chat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/resolver_button2"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#9C27B0"
+                android:paddingHorizontal="5dp"
+                android:text="Tu monstruo es.."
+                app:layout_constraintBottom_toTopOf="@+id/chatbtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/turn_buttonmultiplayer"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#4CAF50"
+            android:paddingHorizontal="5dp"
+            android:text="Terminar\nTurno"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/myMonster_image2"
+            app:layout_constraintStart_toStartOf="@+id/myMonster_image2"
+            app:layout_constraintTop_toBottomOf="@+id/myMonster_image2" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

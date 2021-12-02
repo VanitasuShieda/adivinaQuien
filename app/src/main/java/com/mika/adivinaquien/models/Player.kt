@@ -6,7 +6,7 @@ import com.mika.adivinaquien.R
 class Player() {
     //tdas las cartas
     private val monsterList:MutableList<Monster> = mutableListOf(
-        Monster(id = 0,name = "UNI-DIENTE",isReverse = false,color = "VERDE",eyes = 1,nose = false, legs = false, arms = false, tentacles = true, horns = false, ears = false, antennae = false, furry = false, expression = "SORPRENDIDO", teeth = true, tongue = false, R.drawable.mob0),
+        Monster(id = 0,            name = "UNI-DIENTE",            isReverse = false, color = "VERDE", eyes = 1,nose = false, legs = false, arms = false, tentacles = true, horns = false, ears = false, antennae = false, furry = false, expression = "SORPRENDIDO", teeth = true, tongue = false, R.drawable.mob0),
         Monster(id = 1,name = "SIMPLÓN",isReverse = false,color = "ROJO",eyes = 2,nose = false, legs = true, arms = true, tentacles = false, horns = false, ears = false, antennae = false, furry = false, expression = "SIN EXPRESIÓN", teeth = false,tongue = false, R.drawable.mob1),
         Monster(id = 2,name = "DRAGÓN",isReverse = false,color = "ROJO",eyes = 2,nose = true, legs = true, arms = true, tentacles = false, horns = true, ears = true, antennae = false, furry = false, expression = "FELIZ",teeth = true, tongue = false, R.drawable.mob2),
         Monster(id = 3,name = "TRES-OJOS",isReverse = false,color = "VERDE",eyes = 3,nose = true, legs = true, arms = true, tentacles = false, horns = false, ears = false, antennae = false, furry = false, expression = "FELIZ",teeth = true, tongue = false, R.drawable.mob3),
@@ -63,7 +63,7 @@ class Player() {
         "¿No tiene expresión?",
     )
     private var questionsChoseCPU: MutableList<Int> = arrayListOf()
-    private  var nickname:String=""
+    private var nickname:String=""
     private var myDeck:MutableList<Monster> = arrayListOf()
     private var cardChoiced = -1 //la carta (id) que se escogió en el DialogSelectMonster
     private var cardChoicedAnswer = -1 //la carta (id) que se escogió en el DialogSelectMonster como respuesta de tu monstruo es

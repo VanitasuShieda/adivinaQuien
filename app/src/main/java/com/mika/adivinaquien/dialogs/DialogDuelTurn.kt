@@ -80,7 +80,7 @@ class DialogDuelTurn (context: Context, private val player1: Player, private val
                 player2.setIsFirst(false)
                 closeDialog(false)
             }
-        }, 1050)
+        }, 3050)
     }
 
     private fun closeDialog(isDraw: Boolean) {
