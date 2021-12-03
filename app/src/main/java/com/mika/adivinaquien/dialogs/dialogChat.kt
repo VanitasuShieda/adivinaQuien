@@ -15,8 +15,9 @@ import com.google.firebase.ktx.Firebase
 import com.mika.adivinaquien.adapters.MessageAdapter
 import com.mika.adivinaquien.databinding.ChatBinding
 import com.mika.adivinaquien.models.Message
+import com.mika.adivinaquien.models.Player
 
-class dialogChat(private val useremail: String, private val gameIdgame : String): DialogFragment()  {
+class dialogChat(private val useremail: String, private val gameIdgame : String, private val player1: Player, private val player2: Player): DialogFragment()  {
     private lateinit var binding: ChatBinding
     private var db = Firebase.firestore
     private var user = ""

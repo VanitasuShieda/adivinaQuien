@@ -112,12 +112,16 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
         boxing = sp.load(this, R.raw.boxing, 1)
         //Reproducción de música
         mp = MediaPlayer.create(this, R.raw.games)
-        mp.setVolume(0.5f, 0.5f)
+        mp.setVolume(0.3f, 0.3f)
         mp.start()
         mp.isLooping = true
         val selectMonsterDialog = DialogSelectMonster(this, player1, 0)
         selectMonsterDialog.isCancelable = false
         selectMonsterDialog.show(supportFragmentManager, "Selecciona tu monstruo")
+    }
+    override fun onPause() {
+        super.onPause()
+        mp.stop()
     }
 
     override fun applySelectMonster(player: Player, itemType: Int) {
@@ -948,7 +952,7 @@ class GameSolo : AppCompatActivity(), DialogSelectMonster.DialogSelectMonsterLis
         front_anim.start()
     }
 
-    override fun applyDialogResolve(res: String, player1wins: Boolean) {
+    override fun applyDialogResults(res: String, player1wins: Boolean) {
         if (player1wins) {
             db.collection("users").document(usermail).update("solowins", player1.getSolowins() + 1)
         } else {

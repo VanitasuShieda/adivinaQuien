@@ -18,8 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         android:background="#ABEBC6">
-
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user2_image"
             android:layout_width="67dp"
             android:layout_height="75dp"
@@ -31,7 +30,7 @@
             android:src="@drawable/cpu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
         <TextView
             android:id="@+id/numCartas2_TextView"
             android:layout_width="wrap_content"
@@ -81,8 +80,7 @@
             app:layout_constraintBottom_toTopOf="@+id/user1_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user1_image"
             android:layout_width="67dp"
             android:layout_height="75dp"
@@ -94,7 +92,7 @@
             android:src="@drawable/user"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"  />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +25,13 @@ class DialogQCategory (context: Context, private val itemType:Int): DialogFragme
     interface DialogQCategoryListener {
         fun applyQCategory(itemType:Int, inDialog: String)
     }
-
+    //variables para el efecto de sonido
+    private val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+    private  val sp: SoundPool =
+        SoundPool.Builder().setMaxStreams(6).setAudioAttributes(audioAttributes).build()
+    private val pop2: Int = sp.load(context,R.raw.pop2,1)
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             var inDialog="" //Para identificar en que dialog nos encontramos y cual lista se mostrará
@@ -104,6 +112,8 @@ class DialogQCategory (context: Context, private val itemType:Int): DialogFragme
     }
     //Cuando se selecciona un ítem el dialog se cierra y se llama a applyQCategory
     fun onItemSelect(it: Int, binding: View, inDialog: String){
+        //Se reproduce el sonido
+        sp.play(pop2, 1f, 1f, 1, 0, 1f)
         val items: RecyclerView =binding.findViewById(R.id.recView_question)
         val d = dialog as AlertDialog?
         d?.dismiss()

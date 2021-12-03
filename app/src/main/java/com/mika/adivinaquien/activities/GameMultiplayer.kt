@@ -439,6 +439,7 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
 
         //Mostrar el tablero
         superBinding.tablero2.visibility = View.VISIBLE
+        superBinding.tablero3.visibility = View.VISIBLE
         //Tablero 2
         var adaptador = AdaptadorMonsters(player2, 2) {}
         superBinding.recView2Monsters2.layoutManager = GridLayoutManager(this, 7)
@@ -506,20 +507,20 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
         superBinding.chatbtn.setOnClickListener {
             if (superBinding.chatgame.visibility == View.VISIBLE) {
                 superBinding.chatgame.visibility = View.GONE
-                superBinding.tablero2.visibility = View.VISIBLE
+//                superBinding.tablero2.visibility = View.VISIBLE
             } else {
                 superBinding.chatgame.visibility = View.VISIBLE
-                superBinding.tablero2.visibility = View.INVISIBLE
+//                superBinding.tablero2.visibility = View.INVISIBLE
             }
         }
 
         superBinding.closechatbtn.setOnClickListener {
             if (superBinding.chatgame.visibility == View.VISIBLE) {
                 superBinding.chatgame.visibility = View.GONE
-                superBinding.tablero2.visibility = View.VISIBLE
+//                superBinding.tablero2.visibility = View.VISIBLE
             } else {
                 superBinding.chatgame.visibility = View.VISIBLE
-                superBinding.tablero2.visibility = View.INVISIBLE
+//                superBinding.tablero2.visibility = View.INVISIBLE
             }
         }
 
@@ -572,9 +573,11 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
                         superBinding.numTurnosTextView2.text = "Turno $numTurns"
                         val usrtr = turno.get("usr").toString()
                         if (usrtr != nick) {
-                            superBinding.turnButtonmultiplayer.visibility = View.GONE
+                            superBinding.turnButtonmultiplayer.isEnabled = false
+                            superBinding.resolverButton2.isEnabled = false
                         } else {
-                            superBinding.turnButtonmultiplayer.visibility = View.VISIBLE
+                            superBinding.turnButtonmultiplayer.isEnabled = true
+                            superBinding.resolverButton2.isEnabled = true
                         }
                     }
                 }
@@ -632,7 +635,7 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
                         }
 
                         cartas = arrayonline
-
+                        superBinding.numCartas2TextView2.text = player2.countReverse()
                     }
                 }
             }
@@ -730,7 +733,7 @@ class GameMultiplayer : AppCompatActivity(), DialogSelectMonster.DialogSelectMon
         }
     }
 
-    override fun applyDialogResolve(res: String, player1wins: Boolean) {
+    override fun applyDialogResults(res: String, player1wins: Boolean) {
         if (player1wins) {
             db0.collection("users").document(user).update("multiwins", player1.getSolowins() + 1)
             defWiner(rivalnick, "Victoria")

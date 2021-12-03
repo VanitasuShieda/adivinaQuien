@@ -1,8 +1,10 @@
 package com.mika.adivinaquien.activities
 
+import android.content.ComponentCallbacks2
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,10 +18,11 @@ import com.mika.adivinaquien.dialogs.dialogUserInfo
 import com.mika.adivinaquien.models.User
 import java.util.*
 import com.bumptech.glide.request.RequestOptions
+import com.mika.adivinaquien.R
 import java.io.File
 
 
-class GameMenu: AppCompatActivity() {
+class GameMenu: AppCompatActivity(){
 
     private lateinit var binding: GameMenuBinding
     private var usermail = ""
@@ -30,6 +33,9 @@ class GameMenu: AppCompatActivity() {
     private lateinit var mReference: StorageReference
     private var db = FirebaseFirestore.getInstance()
 
+    //Reproducción de música
+    private lateinit var mp: MediaPlayer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +45,13 @@ class GameMenu: AppCompatActivity() {
 
         mStorage = FirebaseStorage.getInstance()
         mReference = mStorage.reference
+
+        //Reproducción de música
+        mp = MediaPlayer.create(this, R.raw.menus)
+        mp.setVolume(0.5f, 0.5f)
+        mp.start()
+        mp.isLooping = true
+
   //imagen del usuario
         val refnick = db.collection("users").document(usermail).get()
 
@@ -91,6 +104,7 @@ class GameMenu: AppCompatActivity() {
         binding.btnsologame.setOnClickListener{
             val intent = Intent(this, GameSolo::class.java)
             intent.putExtra("User", usermail)
+            mp.stop()
             startActivity(intent)
 
             finish()
@@ -117,4 +131,9 @@ class GameMenu: AppCompatActivity() {
 
         setContentView(binding.root)
     }
+    override fun onPause() {
+        super.onPause()
+        mp.stop()
+    }
+
 }

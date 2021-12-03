@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -26,6 +28,13 @@ class DialogSelectMonster(context: Context, private val player: Player, private 
     interface DialogSelectMonsterListener {
         fun applySelectMonster(player: Player, itemType:Int)
     }
+    //variables para el efecto de sonido
+    private val audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+    private  val sp: SoundPool =
+        SoundPool.Builder().setMaxStreams(6).setAudioAttributes(audioAttributes).build()
+    private val pop: Int = sp.load(context,R.raw.pop,1)
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -97,6 +106,8 @@ class DialogSelectMonster(context: Context, private val player: Player, private 
     }
 
     fun onItemSelect(it: Int, binding: View){
+        //Se reproduce el sonido
+        sp.play(pop, 1f, 1f, 1, 0, 1f)
         val items: RecyclerView=binding.findViewById(R.id.recView_monstersSelect)
         if( items[it].background==null){
             //deselecciona el deck entero

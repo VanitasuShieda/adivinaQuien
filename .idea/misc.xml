@@ -30,6 +30,35 @@
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/pruebas_diseno.xml" value="0.3625" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/turnmsg_dialog.xml" value="0.23125" />
         <entry key="..\:/Users/MikoG/AndroidStudioProjects/AdivinaQuien/app/src/main/res/layout/users_list.xml" value="0.33" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/activity_fullscreen.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/activity_game_solo.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/activity_users_list.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/answercpu_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/chat.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/cpuquestion_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/decideturn_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/dialog_finish.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/dialog_info.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/dialog_login.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/dialog_register.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/doquestion_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/duelturn_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/game_menu.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/game_multiplay.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/item_game.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/item_msg.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/item_usergame.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/item_users.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/listitem_attributes.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/listitem_monsters.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/listitem_monsterselect.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/listitem_monstersplayer2.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/listitem_questions.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/qcategory_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/resolve_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/results_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/selectmonsters_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/oscar/AndroidStudioProjects/adivinaQuien/app/src/main/res/layout/turnmsg_dialog.xml" value="0.25" />
       </map>
     </option>
   </component>

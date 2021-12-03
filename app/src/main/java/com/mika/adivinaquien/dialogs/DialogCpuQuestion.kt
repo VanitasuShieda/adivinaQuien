@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,6 +22,9 @@ class DialogCpuQuestion (context: Context, private val player1: Player, private 
 
     override fun onCreateDialog( savedInstanceState: Bundle?): Dialog {
         return activity?.let {
+            val mp= MediaPlayer.create(context,R.raw.question)
+            mp.setVolume(1.0f, 1.0f)
+            mp.start()
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
             //vínculo con el layout cpuquestion_dialog.xml

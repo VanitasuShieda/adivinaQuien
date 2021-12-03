@@ -10,11 +10,11 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toBottomOf="@+id/user1_imagedialog"
-        app:layout_constraintStart_toEndOf="@+id/user1_imagedialog" />
+        app:layout_constraintBottom_toBottomOf="@+id/user1_image"
+        app:layout_constraintStart_toEndOf="@+id/user1_image" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user1_imagedialog"
+        android:id="@+id/user1_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user2_imagedialog"
+        android:id="@+id/user2_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="32dp"
@@ -37,8 +37,8 @@
         android:layout_height="50dp"
         android:scaleX="-1"
         android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toBottomOf="@+id/user2_imagedialog"
-        app:layout_constraintEnd_toStartOf="@+id/user2_imagedialog" />
+        app:layout_constraintBottom_toBottomOf="@+id/user2_image"
+        app:layout_constraintEnd_toStartOf="@+id/user2_image" />
 
     <ImageView
         android:id="@+id/imageView3"

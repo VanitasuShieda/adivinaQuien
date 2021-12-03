@@ -2,6 +2,7 @@ package com.mika.adivinaquien.activities
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.system.Os.remove
 import android.util.Log
@@ -35,6 +36,7 @@ class UsersList:  AppCompatActivity() {
     private var listUsers = mutableListOf(User(TRUE,"","","", 0,0,0,0 ))
     private var itemant = -1
     private var itemuser = -1
+    private lateinit var mp: MediaPlayer
 
     private val adaptador = GamesListAdapter(listGames){
         val items: RecyclerView = findViewById(R.id.listGamesRecyclerView)
@@ -86,7 +88,11 @@ class UsersList:  AppCompatActivity() {
         intent.getStringExtra("Nick")?.let { nick = it }
         listGames.removeAt(0)
         listUsers.removeAt(0)
-
+        //Reproducción de música
+        mp = MediaPlayer.create(this, R.raw.menus)
+        mp.setVolume(0.5f, 0.5f)
+        mp.start()
+        mp.isLooping = true
         val gamesRef = db.collection("users").document(user).collection("games").get()
             .addOnSuccessListener { documentos ->
                 if(documentos != null){
@@ -229,6 +235,7 @@ class UsersList:  AppCompatActivity() {
             intent.putExtra("gameId", game.id)
             intent.putExtra("User", user)
             intent.putExtra("Nick", nick)
+            mp.stop()
             startActivity(intent)
         }
 
@@ -285,6 +292,7 @@ class UsersList:  AppCompatActivity() {
         intent.putExtra("gameId", gameId)
         intent.putExtra("User", user)
         intent.putExtra("Nick", nick)
+        mp.stop()
         startActivity(intent)
 
 
@@ -345,6 +353,7 @@ class UsersList:  AppCompatActivity() {
         intent.putExtra("gameId", gameId)
         intent.putExtra("User", user)
         intent.putExtra("Nick", nick)
+        mp.stop()
         startActivity(intent)
     }
 }

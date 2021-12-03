@@ -3,6 +3,7 @@ package com.mika.adivinaquien.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -46,6 +47,9 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler()
+
+    //Reproducción de música
+    private lateinit var mp: MediaPlayer
 
     @SuppressLint("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -127,12 +131,19 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
             val registerDialog = dialogRegister()
             registerDialog.show(supportFragmentManager, "anadir dialog")
         }
-
-
+        //Reproducción de música
+        mp = MediaPlayer.create(this, R.raw.menus)
+        mp.setVolume(0.9f, 0.9f)
+        mp.start()
+        mp.isLooping = true
         checkUser()
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        mp.stop()
+    }
     override fun applyLogin(email: String, pass: String) {
         loginUser(email, pass)
         val currentUser = auth.currentUser
@@ -171,7 +182,7 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
 
             val intent = Intent(this, GameMenu::class.java)
             intent.putExtra("User", currentUser.email)
-
+            mp.stop()
             startActivity(intent)
 
             finish()
@@ -200,7 +211,7 @@ class FullscreenActivity : AppCompatActivity() , dialogRegister.dialgoRegisterLi
 
             val intent = Intent(this, GameMenu::class.java)
             intent.putExtra("User", currentUser.email)
-
+            mp.stop()
             startActivity(intent)
 
             finish()

@@ -13,7 +13,8 @@
         android:layout_width="490dp"
         android:layout_height="62dp"
         android:clickable="true"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/myimagemenu"
@@ -35,6 +36,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
             android:text="User"
+            android:textColor="#FFFFFF"
             android:textAlignment="textEnd"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="140dp"
-        android:text="Modo Un Solo Jugador"
+        android:text="Modo Un Solo Jugador 🙋🏼"
+        android:background="#FFEB3B"
+        android:paddingHorizontal="10dp"
         app:flow_horizontalAlign="center"
         app:flow_verticalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +63,10 @@
         android:id="@+id/btnmultigame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Modo Multijugador"
+        android:layout_marginTop="24dp"
+        android:background="#FFEB3B"
+        android:paddingHorizontal="10dp"
+        android:text="Modo Multijugador ️🙋🏼‍♀️🙋🏼‍♂️"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnsologame" />
@@ -70,8 +77,54 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="24dp"
+        android:background="#FFEB3B"
+        android:paddingHorizontal="5dp"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="138dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/mob23_nobg" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="138dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:srcCompat="@drawable/mob2_nobg" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="138dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:srcCompat="@drawable/mob26_nobg" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="138dp"
+        android:layout_height="100dp"
+        android:rotation="180"
+        app:layout_constraintEnd_toStartOf="@+id/userinfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mob7_nobg" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="112dp"
+        android:layout_height="139dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toTopOf="@+id/btnlogout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userinfo"
+        app:srcCompat="@drawable/mob9_nobg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

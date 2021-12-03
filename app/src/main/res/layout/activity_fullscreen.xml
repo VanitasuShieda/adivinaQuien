@@ -21,38 +21,38 @@
         android:layout_height="match_parent"
         >
 
-        <TextView
-            android:id="@+id/titlegame"
+        <ImageView
+            android:id="@+id/logoGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="Title Game"
-            android:textColor="@android:color/black"
-            android:textSize="30sp"
+            android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/loginactivity"
-            android:layout_width="154dp"
-            android:layout_height="51dp"
-            android:layout_margin="10dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="60dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="#FFEB3B"
             android:text="Iniciar Sesion"
-            app:layout_constraintTop_toBottomOf="@id/titlegame" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fullscreen_content" />
 
         <Button
             android:id="@+id/registeractivity"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="#FFEB3B"
             android:text="Registrarse"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginactivity" />
+            app:layout_constraintBottom_toBottomOf="@+id/logoGame"
+            app:layout_constraintEnd_toStartOf="@+id/fullscreen_content" />
 
         <TextView
             android:id="@+id/fullscreen_content"
